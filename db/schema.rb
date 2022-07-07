@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_01_215023) do
+ActiveRecord::Schema.define(version: 2022_07_07_212318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "project_id"
+    t.string "follow_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "tools_required"
@@ -25,6 +33,7 @@ ActiveRecord::Schema.define(version: 2022_07_01_215023) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title"
+    t.integer "user_id"
   end
 
   create_table "reviews", force: :cascade do |t|

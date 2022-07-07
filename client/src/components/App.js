@@ -9,10 +9,9 @@ import ProjectList from './ProjectList'
 
 function App() {
 
-  // const [users, setUsers] = useState([])
   const [user, setUser] = useState(null)
-
-  console.log(user)
+  const [errors, setErrors] = useState([])
+  const [allProjects, setAllProjects] = useState([])
 
   useEffect(() => {
     fetch('/me').then((res) => {
@@ -21,6 +20,51 @@ function App() {
       }
     });
   }, [])
+
+  useEffect(() => {
+    fetch('/projects')
+    .then((res) => res.json())
+    .then((projects) => setAllProjects(projects))
+  }, [])
+
+  console.log(allProjects)
+
+  // useEffect(() => {
+  //   fetch(`/projects/${user.id}`)
+  //   .then((res) => res.json())
+  //   .then((projects) => setUserProjectList(projects))
+  // })
+  
+
+  function onNewProjectSubmit(formData) {
+    fetch ('/projects', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "title": formData.title,
+        "tools_required": formData.tools_required,
+        "tools_recommended": formData.tools_recommended,
+        "materials": formData.materials,
+        "time": formData.time,
+        "instructions": formData.instructions,
+        "img_url": formData.img_url
+      })
+    })
+    .then((res) => {
+      if (res.ok) {
+        res.json().then((project) => { 
+          // console.log(project)
+          setUser({...user, 
+            projects: [...user.projects, project]
+          })  
+        })
+      } else {
+        res.json().then((errors) => setErrors(errors))
+        }
+    })
+  }
 
   if (!user) return <LoginPage onLogin={setUser} />
 
@@ -31,11 +75,11 @@ function App() {
         <NavBar user={user} setUser={setUser}/>
         <Routes>
           <Route path="/new" element={
-            <NewProject />
+            <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors}/>
           }
           />
           <Route path="/" element={
-            <ProjectList />
+            <ProjectList user={user}/>
           }
           />
         </Routes>

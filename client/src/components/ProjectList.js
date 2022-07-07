@@ -1,8 +1,15 @@
 import React from "react";
+import ProjectCard from './ProjectCard'
 
-function ProjectList() {
+function ProjectList({user}) {
+
+    const userProjectList = user.projects.map((project) => <ProjectCard project={project}/>)
+
     return (
-        <h4>Future ProjectList</h4>
+        <>
+            <h2>{user.username}'s Projects</h2>
+            {userProjectList}
+        </>
     )
 }
 

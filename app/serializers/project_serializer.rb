@@ -1,3 +1,4 @@
 class ProjectSerializer < ActiveModel::Serializer
-  attributes :id, :title, :tools_required, :tools_recommended, :materials, :time, :instructions, :img_url
+  attributes :id, :user_id, :title, :tools_required, :tools_recommended, :materials, :time, :instructions, :img_url
+
 end

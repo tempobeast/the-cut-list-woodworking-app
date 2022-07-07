@@ -5,7 +5,7 @@ puts "start the seeding"
 10.times do 
     User.create(
         username: "#{Faker::DcComics.hero.gsub(/\s+/, "").concat(Faker::Number.number(digits: 3).to_s)}",
-        password_digest: "password",
+        password: "password",
         bio: Faker::Restaurant.description,
         img_url: Faker::Fillmurray.image
     )
@@ -19,18 +19,28 @@ end
         materials: Faker::Creature::Bird.order,
         time: Faker::Number.between(from: 1, to: 20),
         instructions: Faker::Lorem.paragraph(sentence_count: 2),
-        img_url: Faker::Placeholdit.image
+        img_url: Faker::Placeholdit.image,
+        user_id: Faker::Number.between(from: 1, to: 10)
     )
 end
 
+
 10.times do
-    Review.create(
-        body: Faker::Lorem.paragraph(sentence_count: 2),
-        rating: Faker::Number.between(from: 1, to: 5),
-        img_url: Faker::Placeholdit.image,
+    Follow.create(
+        follow_type: "todo",
         project_id: Faker::Number.between(from: 1, to: 8),
         user_id: Faker::Number.between(from: 1, to: 10)
     )
 end
+
+# 10.times do
+#     Review.create(
+#         body: Faker::Lorem.paragraph(sentence_count: 2),
+#         rating: Faker::Number.between(from: 1, to: 5),
+#         img_url: Faker::Placeholdit.image,
+#         project_id: Faker::Number.between(from: 1, to: 8),
+#         user_id: Faker::Number.between(from: 1, to: 10)
+#     )
+# end
 
 puts "finished seeding"
