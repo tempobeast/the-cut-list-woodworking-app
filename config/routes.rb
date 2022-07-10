@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :follows
-  resources :reviews
+  # resources :follows
+  # resources :reviews
   resources :projects
-  resources :users
+  resources :users, :except => [:create]
+  resources :follows, :only => [:destroy, :create]
   get '/me', to: 'users#show'
   post '/signup', to: 'users#create'
   post '/login', to: 'sessions#create'

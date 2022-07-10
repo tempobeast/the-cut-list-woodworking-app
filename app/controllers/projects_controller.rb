@@ -13,16 +13,20 @@ class ProjectsController < ApplicationController
         render json: projects, status: :ok
     end
 
-    # def show
-    #     user = User.find_by(id: session[:user_id])
-    #     if user
-    #         render json: user
-    # end
+    def destroy
+        project = Project.find(params[:id])
+        project.destroy
+        render json: project, head: :no_content
+    end 
 
     private
 
     def project_params
         params.permit( :title, :tools_recommended, :tools_required, :time, :materials, :instructions, :img_url )
+    end
+
+    def render_not_found_response
+        render json: { errors: ["Project not found"] }, status: :not_found
     end
 
 end

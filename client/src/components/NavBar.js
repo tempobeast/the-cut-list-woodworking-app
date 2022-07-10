@@ -20,6 +20,12 @@ function NavBar({ user, setUser }) {
         <Link to="/">The Wood Shop</Link>
       </Logo>
       <Nav>
+      <Button as={Link} to="/">
+          My Projects
+        </Button>
+      <Button as={Link} to="/projects">
+          Available Projects
+        </Button>
         <Button as={Link} to="/new">
           New Project
         </Button>
@@ -33,7 +39,7 @@ function NavBar({ user, setUser }) {
 
 const Wrapper = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   padding: 8px;
 `;

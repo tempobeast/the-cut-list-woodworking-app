@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        user = User.find_by(id: params[:id])
+        user = User.find_by(id: session[:user_id])
         if user
             render json: user, status: :ok
         else
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     end
 
     def destroy
-        user = User.find(params[:id])
+        user =  User.find(params[:id])
         user.destroy
         head :no_content
     end

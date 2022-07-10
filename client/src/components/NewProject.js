@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Button, Error, Input, FormField, Label } from "../styles";
 
-function NewProject({ onNewProjectSubmit }) {
-    const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState([])
+function NewProject({ onNewProjectSubmit, isLoading, errors }) {
+    
     const [formData, setFormData] = useState({
         title: "",
         tools_required: "",

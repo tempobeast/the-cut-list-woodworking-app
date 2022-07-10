@@ -1,16 +1,18 @@
 import '../App.css';
 import { useEffect, useState } from 'react'
 import { Route, Routes} from 'react-router-dom'
-import Header from './Header'
+// import Header from './Header'
 import LoginPage from './LoginPage'
 import NavBar from './NavBar'
 import NewProject from './NewProject'
-import ProjectList from './ProjectList'
+import UserProjectList from './UserProjectList'
+import AvailableProjectList from './AvailableProjectList'
 
 function App() {
 
   const [user, setUser] = useState(null)
   const [errors, setErrors] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const [allProjects, setAllProjects] = useState([])
 
   useEffect(() => {
@@ -27,8 +29,6 @@ function App() {
     .then((projects) => setAllProjects(projects))
   }, [])
 
-  console.log(allProjects)
-
   // useEffect(() => {
   //   fetch(`/projects/${user.id}`)
   //   .then((res) => res.json())
@@ -37,6 +37,8 @@ function App() {
   
 
   function onNewProjectSubmit(formData) {
+    setErrors([]);
+    setIsLoading(true);
     fetch ('/projects', {
       method: 'POST',
       headers: {
@@ -53,9 +55,9 @@ function App() {
       })
     })
     .then((res) => {
+      setIsLoading(false);
       if (res.ok) {
         res.json().then((project) => { 
-          // console.log(project)
           setUser({...user, 
             projects: [...user.projects, project]
           })  
@@ -65,21 +67,79 @@ function App() {
         }
     })
   }
+  function onProjectButtonClick(projectId, e) {
+    if (e.target.value === "delete project") {
+      fetch(`/projects/${projectId}`, {
+        method: 'DELETE',
+      })
+      .then((res) => res.json())
+      .then((deleteProject) => { 
+        const updatedProjList = allProjects.filter((project) => project.id !== deleteProject.id)
+        setAllProjects(updatedProjList)
+        const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id)
+        setUser({...user, 
+          projects: updatedUserProjList
+        })
+      })
+    } else if (e.target.value === "remove project") {
+      const followToDelete = user.follows.find((follow) => follow.project_id === projectId)
+      fetch(`/follows/${followToDelete.id}`, {
+        method: 'DELETE',
+      })
+      .then((res) => res.json())
+      .then((deletedFollow) => {
+        const updatedFollowList = user.follows.filter((follow) => follow.id !== deletedFollow.id)
+        const updatedUserFollowProjList = user.followed_projects.filter((project) => project.id !== deletedFollow.project_id)
+        setUser({...user,
+        followed_projects: updatedUserFollowProjList,
+        follows: updatedFollowList
+        })
+      }) 
+    } else {
+      fetch('/follows', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          project_id: projectId,
+          user_id: user.id,
+          follow_type: "todo"
+        })
+      })
+      .then((res) => res.json())
+      .then((follow) => {
+        console.log(follow)
+        const updatedFollowList = [...user.follows, follow]
+        const newFollowProject = allProjects.find((project) => project.id === follow.project_id)
+        const updatedUserFollowProjList = [...user.followed_projects, newFollowProject]
+        setUser({...user,
+        followed_projects: updatedUserFollowProjList,
+        follows: updatedFollowList
+        })
+      })
+    }
+  } 
+  
 
   if (!user) return <LoginPage onLogin={setUser} />
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main>
         <NavBar user={user} setUser={setUser}/>
         <Routes>
           <Route path="/new" element={
-            <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors}/>
+            <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading}/>
+          }
+          />
+          <Route path="/projects" element={
+            <AvailableProjectList projects={allProjects} onProjectButtonClick={onProjectButtonClick}/>
           }
           />
           <Route path="/" element={
-            <ProjectList user={user}/>
+            <UserProjectList user={user} onProjectButtonClick={onProjectButtonClick}/>
           }
           />
         </Routes>
