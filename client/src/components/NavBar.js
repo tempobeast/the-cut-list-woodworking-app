@@ -3,16 +3,18 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../styles";
 
-function NavBar({ user, setUser }) {
+function NavBar({ onLogoutClick }) {
 
-  function handleLogoutClick() {
-    fetch("/logout", 
-    { method: "DELETE" }).then((r) => {
-      if (r.ok) {
-        setUser(null);
-      }
-    });
-  }
+  // function handleLogoutClick() {
+  //   fetch("/logout", 
+  //   { method: "DELETE" }).then((r) => {
+  //     if (r.ok) {
+  //       setUser(null);
+  //     }
+  //   });
+  // }
+
+
 
   return (
     <Wrapper>
@@ -29,7 +31,7 @@ function NavBar({ user, setUser }) {
         <Button as={Link} to="/new">
           New Project
         </Button>
-        <Button variant="outline" onClick={handleLogoutClick}>
+        <Button variant="outline" onClick={onLogoutClick}>
           Logout
         </Button>
       </Nav>

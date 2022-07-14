@@ -1,6 +1,6 @@
 import '../App.css';
 import { useEffect, useState } from 'react'
-import { Navigate, Route, Routes, useNavigate} from 'react-router-dom'
+import { Route, Routes, useNavigate} from 'react-router-dom'
 // import Header from './Header'
 import LoginPage from './LoginPage'
 import NavBar from './NavBar'
@@ -16,32 +16,26 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [projects, setProjects] = useState([])
   const [updateProject, setUpdateProject] = useState(null)
-  // const [userAuthoredProjects, setUserAuthoredProjects] = useState([])
-  // const [userFollowedProjects, setUserFollowedProjects] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
     fetch('/me').then((res) => {
       if (res.ok) {
         res.json().then((user) =>{
-          getProjects()
-          setUser(user)
+          getProjects();
+          setUser(user);
         })
       }
     });
   }, [])
 
-  function getProjects(){
+  const getProjects = () => {
     fetch('/projects')
     .then((res) => res.json())
     .then((projects) => {
-      const nonUserProjects = projects.filter((project) => project.user_id !== user.id);
-      const availableProjects = nonUserProjects.filter((project) => project.follows < 1 || project.follows.find((follow) => follow.user_id !== user.id))
-      setProjects(availableProjects)
+      setProjects(projects)
     })
   }
-console.log(user)
-console.log(projects)
 
   function onNewProjectSubmit(formData) {
     setErrors([]);
@@ -167,16 +161,28 @@ console.log(projects)
     .then((res) => res.json())
     .then((updatedProject) => {
       const updatedAllProjects = projects.filter((proj) => proj.id !== updatedProject.id);
-      console.log(updatedAllProjects)
-      setProjects(updatedAllProjects);
+      setProjects([...updatedAllProjects, updateProject]);
       const updatedUserProjList = user.projects.filter ((proj) => proj.id !== updateProject.id);
       setUser({...user, 
-        projects: updatedUserProjList});
+        projects:[...updatedUserProjList, updatedProject]});
         navigate('/')
     })
   }
 
-  
+  function onLogoutClick() {
+    fetch("/logout", 
+    { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setUser(null);
+      }
+    });
+  }
+
+  function onLogin(user) {
+    getProjects()
+    setUser(user)
+  }
+
   function onUpdateProjectClick(e, project) {
     setUpdateProject(project)
     navigate('/new')
@@ -189,7 +195,7 @@ console.log(projects)
     <>
       {/* <Header /> */}
       <main>
-        <NavBar user={user} setUser={setUser}/>
+        <NavBar onLogoutClick={onLogoutClick}/>
         <Routes>
           <Route path="/new" element={
             <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading} updateProject={updateProject} onUpdateProjectSubmit={onUpdateProjectSubmit}/>
