@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Button, Error, Input, FormField, Label } from "../styles";
 
-function NewProject({ onNewProjectSubmit, isLoading, errors }) {
+function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUpdateProjectSubmit }) {
     
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState(
+        updateProject ? updateProject :
+        { 
         title: "",
         tools_required: "",
         tools_recommended: "",
@@ -12,6 +14,8 @@ function NewProject({ onNewProjectSubmit, isLoading, errors }) {
         instructions: "",
         img_url: "",
     })
+
+    console.log(formData)
 
     function handleChange(e) {
         setFormData({...formData,
@@ -23,12 +27,17 @@ function NewProject({ onNewProjectSubmit, isLoading, errors }) {
         onNewProjectSubmit(formData)
     }
 
+    function handleUpdate(e) {
+        e.preventDefault();
+        onUpdateProjectSubmit(formData)
+    }
+
 
 
     return (
         <>
             <h3>Create a new project</h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={updateProject ? handleUpdate : handleSubmit}>
             <FormField>
                 <Label htmlfor="title">Title</Label>
                 <Input 
@@ -107,7 +116,7 @@ function NewProject({ onNewProjectSubmit, isLoading, errors }) {
             </FormField>
             <FormField>
                 <Button type="submit">
-                    {isLoading ? "Loading..." : "Submit Project"}
+                    {isLoading ? "Loading..." : updateProject ? "Update Project" : "Submit Project"}
                 </Button>
             </FormField>
             <FormField>

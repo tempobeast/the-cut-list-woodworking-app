@@ -25,13 +25,13 @@ end
 end
 
 
-10.times do
-    Follow.create(
-        follow_type: "todo",
-        project_id: Faker::Number.between(from: 1, to: 8),
-        user_id: Faker::Number.between(from: 1, to: 10)
-    )
-end
+# 10.times do
+#     Follow.create(
+#         follow_type: "todo",
+#         project_id: Faker::Number.between(from: 1, to: 8),
+#         user_id: Faker::Number.between(from: 1, to: 10)
+#     )
+# end
 
 # 10.times do
 #     Review.create(

@@ -15,6 +15,7 @@ skip_before_action :authorize, only: :create
     def destroy
         session.delete :user_id
         head :no_content
+        
     end
 
 

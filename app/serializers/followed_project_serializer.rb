@@ -1,6 +1,6 @@
 class FollowedProjectSerializer < ActiveModel::Serializer
-  attributes :id, :title, :instructions, :tools_recommended, :tools_required, :time, :materials, :img_url, :user
-
-  has_one :user, only: :username
+  attributes :id, :user_id, :title, :tools_required, :tools_recommended, :materials, :time, :instructions, :img_url, :follows
+  
+  has_many :follows
   
 end

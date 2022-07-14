@@ -2,14 +2,33 @@
   text-align: center;
 }
 
-.user_authored_project {
+#user_authored_project {
   background-color: grey;
 }
 
-.followed_project {
+#followed_project {
   background-color: blue;
 }
 
-.all_projects {
+#all_projects {
   background-color: aqua;
+}
+
+.project_card {
+  width: 300px;
+  margin: 2.5%;
+  float: left;
+  border-style: outset;
+  border-width: 2px;
+  padding: 8px;
+}
+
+.project_image {
+  width: 300px;
+}
+
+.project_card_details {
+ text-overflow: ellipsis;
+ overflow: hidden;
+ white-space: nowrap;
 }

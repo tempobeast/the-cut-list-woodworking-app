@@ -12,7 +12,7 @@ function SignUpForm( {onLogin} ) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        setErrors([])
+        setErrors([]);
         setIsLoading(true);
         fetch('/signup', {
             method: 'POST',

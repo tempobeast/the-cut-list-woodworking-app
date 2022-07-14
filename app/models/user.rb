@@ -4,8 +4,8 @@ class User < ApplicationRecord
 
     validates :username, presence: true, uniqueness: true
 
-has_many :projects
-has_many :follows
+has_many :projects, dependent: :destroy
+has_many :follows, dependent: :destroy
 has_many :followed_projects, through: :follows, source: :project
 
 end

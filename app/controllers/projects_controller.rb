@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
     before_action :authorize
 
     def create
-        user = User.find_by(id: session[:user_id])
+        user = find_user
         project = user.projects.create!(project_params)
         render json: project, status: :created
     end
@@ -14,10 +14,18 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
-        project = Project.find(params[:id])
+        user = find_user
+        project = user.projects.find(params[:id])
         project.destroy
         render json: project, head: :no_content
     end 
+
+    def update
+        user = find_user
+        project = user.projects.find(params[:id])
+        project.update!(project_params)
+        render json: project, status: :accepted
+    end
 
     private
 
@@ -27,6 +35,10 @@ class ProjectsController < ApplicationController
 
     def render_not_found_response
         render json: { errors: ["Project not found"] }, status: :not_found
+    end
+
+    def find_user
+        User.find_by(id: session[:user_id])
     end
 
 end
