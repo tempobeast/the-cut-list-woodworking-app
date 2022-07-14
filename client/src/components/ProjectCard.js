@@ -1,17 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import '../App.css';
 
 function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, userId, followed }) {
-    const {title, tools_recommended, tools_required, materials, time, instructions, img_url} = project
+    const {title, time, instructions, img_url} = project
 
 
     
 
-    function toolsToDisplay(string) {
-        const splitArr = string.split(", ")
-        return splitArr.map((tool) => <li key={tool}>{tool}</li>)
-    }
+    // function toolsToDisplay(string) {
+    //     const splitArr = string.split(", ")
+    //     return splitArr.map((tool) => <li key={tool}>{tool}</li>)
+    // }
 
     const cardIds = () => {
         if (project.user_id === userId) {

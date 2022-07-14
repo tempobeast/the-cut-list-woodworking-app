@@ -4,10 +4,6 @@ import '../App.css'
 
 function UserProjectList({ user, onProjectButtonClick, userId, onUpdateProjectClick }) {
 
-    console.log(user.projects)
-    console.log(user.followed_projects)
-
-
     return (
         <div>
             <h2>{user.username}'s Projects</h2>

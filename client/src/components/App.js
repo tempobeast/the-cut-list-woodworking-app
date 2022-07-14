@@ -132,16 +132,6 @@ function App() {
     }
   } 
 
-  // const filteredAvailableProjects = allProjects.filter((proj) => {
-  //   return proj.user_id !== user.id
-  //   }).filter((proj) => {
-  //     if (proj.follows.find((f) => f.user_id === user.id)) {
-  //       return false
-  //     } else {
-  //       return true
-  //     } 
-  //   })
-
   function onUpdateProjectSubmit(formData) {
     fetch(`/projects/${formData.id}`, {
       method: 'PATCH',
@@ -178,10 +168,10 @@ function App() {
     });
   }
 
-  function onLogin(user) {
-    getProjects()
-    setUser(user)
-  }
+  // function onLogin(user) {
+  //   getProjects()
+  //   setUser(user)
+  // }
 
   function onUpdateProjectClick(e, project) {
     setUpdateProject(project)
