@@ -7,6 +7,7 @@ import NavBar from './NavBar'
 import NewProject from './NewProject'
 import UserProjectList from './UserProjectList'
 import AvailableProjectList from './AvailableProjectList'
+import ProjectPage from './ProjectPage';
 // import ProjectList from './ProjectList';
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [projects, setProjects] = useState([])
   const [updateProject, setUpdateProject] = useState(null)
+  const [search, setSearch] = useState('')
+  const [clickedProject, setClickedProject] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -171,14 +174,19 @@ function App() {
     });
   }
 
-  // function onLogin(user) {
-  //   getProjects()
-  //   setUser(user)
-  // }
-
   function onUpdateProjectClick(e, project) {
     setUpdateProject(project)
     navigate('/new')
+  }
+
+  function onProjectCardClick(projId) {
+    console.log(projId)
+    fetch(`/projects/${projId}`)
+    .then((res) => res.json())
+    .then((clicked) => {
+      setClickedProject(clicked)
+      navigate(`/projects/${clicked.id}`)
+    })
   }
 
 
@@ -188,7 +196,7 @@ function App() {
     <div className='App'>
       {/* <Header /> */}
       <main>
-        <NavBar onLogoutClick={onLogoutClick}/>
+        <NavBar onLogoutClick={onLogoutClick} setSearch={setSearch} />
         <Routes>
           <Route path="/new" element={
             <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading} updateProject={updateProject} onUpdateProjectSubmit={onUpdateProjectSubmit}/>
@@ -196,11 +204,15 @@ function App() {
           />
           <Route path="/projects" element={
             <AvailableProjectList projects={projects} 
-            onProjectButtonClick={onProjectButtonClick} userId={user.id}/>
+            onProjectButtonClick={onProjectButtonClick} userId={user.id} search={search} onProjectCardClick={onProjectCardClick}/>
           }
           />
           <Route path="/" element={
-            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
+            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick}/>
+          }
+          />
+          <Route path="/projects/:id" element={ 
+            <ProjectPage clickedProject={clickedProject}/>
           }
           />
         </Routes>

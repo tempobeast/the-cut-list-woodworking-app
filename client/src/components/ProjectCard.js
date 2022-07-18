@@ -1,13 +1,8 @@
 import React from "react";
 import '../App.css';
 
-function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, userId, followed }) {
+function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, userId, followed, onProjectCardClick }) {
     const {title, time, instructions, img_url} = project
-
-    // function toolsToDisplay(string) {
-    //     const splitArr = string.split(", ")
-    //     return splitArr.map((tool) => <li key={tool}>{tool}</li>)
-    // }
 
     const cardIds = () => {
         if (project.user_id === userId) {
@@ -27,8 +22,12 @@ function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, user
         onProjectButtonClick(project.id, e)
     }
 
+    function handleCardClick(e) {
+        onProjectCardClick(project.id)
+    }
+
     return (
-        <div className="project_card" id={cardIds()}>
+        <div className="project_card" id={cardIds()} onClick={handleCardClick}>
             <img src={img_url} alt={title} className="project_image"/>
             <h3>{title}</h3>
             <p>Time: {time} hrs</p>

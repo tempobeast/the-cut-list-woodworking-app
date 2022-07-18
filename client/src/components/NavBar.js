@@ -1,20 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Button } from "../styles";
+import { Button, FormField, Input } from "../styles";
 
-function NavBar({ onLogoutClick }) {
+function NavBar({ onLogoutClick, setSearch }) {
 
-  // function handleLogoutClick() {
-  //   fetch("/logout", 
-  //   { method: "DELETE" }).then((r) => {
-  //     if (r.ok) {
-  //       setUser(null);
-  //     }
-  //   });
-  // }
-
-
+  function handleChange(e) {
+    setSearch(e.target.value)
+  }
 
   return (
     <Wrapper>
@@ -35,6 +28,9 @@ function NavBar({ onLogoutClick }) {
           Logout
         </Button>
       </Nav>
+      <FormField >
+        <Input type="text" placeholder="search" onChange={handleChange} />
+      </FormField>
     </Wrapper>
   );
 }

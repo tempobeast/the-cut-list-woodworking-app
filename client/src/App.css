@@ -33,3 +33,7 @@
  overflow: hidden;
  white-space: nowrap;
 }
+
+.project_page_img {
+  width: 50%;
+}
