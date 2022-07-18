@@ -7,11 +7,12 @@
 }
 
 #followed_project {
-  background-color: blue;
+  background-color: rgb(223, 181, 29);
 }
 
 #all_projects {
-  background-color: aqua;
+  background-color: rgb(18, 131, 131);
+  color: white
 }
 
 .project_card {

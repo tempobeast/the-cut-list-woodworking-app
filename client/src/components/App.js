@@ -36,6 +36,8 @@ function App() {
       setProjects(projects)
     })
   }
+  console.log(user)
+  console.log(projects)
 
   function onNewProjectSubmit(formData) {
     setErrors([]);
@@ -62,7 +64,7 @@ function App() {
           setUser({...user, 
             projects: [...user.projects, newProject]
           })
-          setProjects(...projects, newProject)
+          setProjects([...projects, newProject])
           navigate('/')
         })
       } else {
@@ -92,17 +94,15 @@ function App() {
       })
       .then((res) => res.json())
       .then((deletedFollow) => {
-        const followProject = user.followed_projects.find((project) => project.id === deletedFollow.project_id)
-
-        console.log(followProject)
-        setProjects([...projects, followProject])
+        // const followProject = user.followed_projects.find((project) => project.id === deletedFollow.project_id)
+        // setProjects([...projects, followProject])
         const updatedFollowList = user.follows.filter((follow) => follow.id !== deletedFollow.id)
         const updatedUserFollowProjList = user.followed_projects.filter((project) => project.id !== deletedFollow.project_id)
         setUser({...user,
         followed_projects: updatedUserFollowProjList,
-        follows: updatedFollowList
+        // follows: updatedFollowList
         })
-        
+        getProjects()
       }) 
     } else {
       fetch('/follows', {
@@ -120,13 +120,16 @@ function App() {
       .then((follow) => {
         const updatedFollowList = [...user.follows, follow]
         const newFollowProject = projects.find((project) => project.id === follow.project_id)
-        const updatedUserFollowProjList = [...user.followed_projects, newFollowProject]
-        const updatedProjects = projects.filter((project) => project.id !== follow.project_id)
-        setProjects(updatedProjects)
+        const updatedFollowOnProject = {...newFollowProject, 
+          follows: [...newFollowProject.follows, follow]}
+        const updatedUserFollowProjList = [...user.followed_projects, updatedFollowOnProject]
+        // const updatedProjects = projects.filter((project) => project.id !== follow.project_id)
+        // setProjects(updatedProjects)
         setUser({...user,
         followed_projects: updatedUserFollowProjList,
         follows: updatedFollowList
         })
+        getProjects()
         navigate('/')
       })
     }
@@ -182,7 +185,7 @@ function App() {
   if (!user) return <LoginPage onLogin={setUser} />
 
   return (
-    <>
+    <div className='App'>
       {/* <Header /> */}
       <main>
         <NavBar onLogoutClick={onLogoutClick}/>
@@ -197,14 +200,14 @@ function App() {
           }
           />
           <Route path="/" element={
-            <UserProjectList user={user} userId={user.id} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
+            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
           }
           />
         </Routes>
       </main>
 
      
-    </>
+    </div>
   );
 }
 

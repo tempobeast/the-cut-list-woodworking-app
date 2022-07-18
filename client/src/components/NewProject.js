@@ -15,8 +15,6 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
         img_url: "",
     })
 
-    console.log(formData)
-
     function handleChange(e) {
         setFormData({...formData,
             [e.target.name]: e.target.value})

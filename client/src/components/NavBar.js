@@ -19,7 +19,7 @@ function NavBar({ onLogoutClick }) {
   return (
     <Wrapper>
       <Logo>
-        <Link to="/">The Wood Shop</Link>
+        <Link to="/">The Cut List</Link>
       </Logo>
       <Nav>
       <Button as={Link} to="/">
@@ -49,12 +49,12 @@ const Wrapper = styled.header`
 const Logo = styled.h1`
   font-family: "Arial";
   font-size: 3rem;
-  color: blue;
+  color: rgb(223, 181, 29);
   margin: 0;
   line-height: 1;
 
   a {
-    color: inherit;
+    color: rgb(223, 181, 29);
     text-decoration: none;
   }
 `;

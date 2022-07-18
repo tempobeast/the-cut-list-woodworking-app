@@ -44,7 +44,7 @@ function LoginForm( {onLogin} ) {
             <FormField>
                 <Label htmlfor="password">Password</Label>
                 <Input
-                    type="text"
+                    type="password"
                     id="password"
                     autoComplete="current-password"
                     value={password}

@@ -4,9 +4,6 @@ import '../App.css';
 function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, userId, followed }) {
     const {title, time, instructions, img_url} = project
 
-
-    
-
     // function toolsToDisplay(string) {
     //     const splitArr = string.split(", ")
     //     return splitArr.map((tool) => <li key={tool}>{tool}</li>)
@@ -43,9 +40,10 @@ function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, user
             </ul>
             <p>Materials Used: {materials}</p> */}
             <p className="project_card_details">{instructions}</p>
-            <p>By: {}</p>
+            <p>{project.user ? `By: ${project.user.username}` : null}</p>
             <button value={cardIds()} onClick={handleClick}>{cardIds() === "user_authored_project" ? "delete project" : cardIds() === "followed_project" ? "remove project" : "add project"}</button>
             {cardIds() === "user_authored_project" ? <button value="update_project" onClick={handleUpdateClick}>update project</button> : null}
+            <p>{project.follows ? `follows: ${project.follows.length}` : null}</p>
         </div>
     )
 }
