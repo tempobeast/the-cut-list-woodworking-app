@@ -12,7 +12,7 @@ function AvailableProjectList({ projects, onProjectButtonClick, userId, search, 
     return (
         <div>
             <h2>Available Projects:</h2>
-            {filterUserProjects.map((project) => <ProjectCard project={project} key={project.id} onProjectButtonClick={onProjectButtonClick} userId={userId} followed={false} onProjectCardClick={onProjectCardClick}/>)}
+            {filterUserProjects.map((project) => <ProjectCard all={true} project={project} key={project.id} onProjectButtonClick={onProjectButtonClick} userId={userId} followed={false} onProjectCardClick={onProjectCardClick}/>)}
         </div>
     )
 }

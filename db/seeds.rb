@@ -15,6 +15,8 @@ project_essentials = [
     {title: "Planter Trellis Combo", img_url: "https://www.familyhandyman.com/wp-content/uploads/2017/06/fh09apr_497_51_010.jpg?w=1000"}
 ]
 
+
+
 10.times do 
     User.create(
         username: "#{Faker::DcComics.hero.gsub(/\s+/, "").concat(Faker::Number.number(digits: 3).to_s)}",
@@ -28,10 +30,10 @@ end
     Project.create(
         title: project_essentials[index][:title],
         tools_required: Faker::Hipster.words(number: 2..4).join(", "),
-        tools_recommended: Faker::Hipster.words(number: 4..8).join(", "),
+        description: Faker::Lorem.paragraph(sentence_count: 4),
         materials: Faker::Creature::Bird.order,
         time: Faker::Number.between(from: 1, to: 20),
-        instructions: Faker::Lorem.paragraph(sentence_count: 2),
+        instructions: Faker::Lorem.paragraph(sentence_count: 4),
         img_url: project_essentials[index][:img_url],
         user_id: Faker::Number.between(from: 1, to: 10)
     )

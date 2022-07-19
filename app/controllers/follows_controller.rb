@@ -17,4 +17,8 @@ class FollowsController < ApplicationController
         params.permit(:user_id, :project_id, :follow_type)
     end
 
+    def render_not_found_response
+        render json: {errors: ["Follow not found"]}, status: :not_found
+    end
+
 end

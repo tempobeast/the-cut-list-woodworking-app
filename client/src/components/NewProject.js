@@ -8,7 +8,7 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
         { 
         title: "",
         tools_required: "",
-        tools_recommended: "",
+        description: "",
         materials: "",
         time: "",
         instructions: "",
@@ -29,8 +29,7 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
         e.preventDefault();
         onUpdateProjectSubmit(formData)
     }
-
-
+console.log(formData)
 
     return (
         <>
@@ -59,12 +58,12 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
                 />
             </FormField>
             <FormField>
-                <Label htmlfor="tools_recommended">Tools Recommended</Label>
+                <Label htmlfor="description">Description</Label>
                 <Input
-                    type="text"
-                    name="tools_recommended"
+                    type="textarea"
+                    name="description"
                     autoComplete="off"
-                    value={formData.tools_recommended}
+                    value={formData.description}
                     onChange={handleChange}
                     required
                 />

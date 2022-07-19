@@ -1,13 +1,14 @@
 import '../App.css';
-import { useEffect, useState } from 'react'
-import { Route, Routes, useNavigate} from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { Route, Routes, useNavigate} from 'react-router-dom';
 // import Header from './Header'
-import LoginPage from './LoginPage'
-import NavBar from './NavBar'
-import NewProject from './NewProject'
-import UserProjectList from './UserProjectList'
-import AvailableProjectList from './AvailableProjectList'
+import LoginPage from './LoginPage';
+import NavBar from './NavBar';
+import NewProject from './NewProject';
+import UserProjectList from './UserProjectList';
+import AvailableProjectList from './AvailableProjectList';
 import ProjectPage from './ProjectPage';
+
 // import ProjectList from './ProjectList';
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
   const [projects, setProjects] = useState([])
   const [updateProject, setUpdateProject] = useState(null)
   const [search, setSearch] = useState('')
-  const [clickedProject, setClickedProject] = useState(null)
+  const [clickedProject, setClickedProject] = useState('')
+  const [allUserProjects, setAllUserProjects] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,6 +29,7 @@ function App() {
         res.json().then((user) =>{
           getProjects();
           setUser(user);
+          setAllUserProjects([...user.projects, ...user.followed_projects])
         })
       }
     });
@@ -39,8 +42,6 @@ function App() {
       setProjects(projects)
     })
   }
-  console.log(user)
-  console.log(projects)
 
   function onNewProjectSubmit(formData) {
     setErrors([]);
@@ -53,7 +54,7 @@ function App() {
       body: JSON.stringify({
         "title": formData.title,
         "tools_required": formData.tools_required,
-        "tools_recommended": formData.tools_recommended,
+        "description": formData.description,
         "materials": formData.materials,
         "time": formData.time,
         "instructions": formData.instructions,
@@ -68,6 +69,7 @@ function App() {
             projects: [...user.projects, newProject]
           })
           setProjects([...projects, newProject])
+          setAllUserProjects([newProject, ...allUserProjects])
           navigate('/')
         })
       } else {
@@ -76,6 +78,7 @@ function App() {
     })
   }
 
+  console.log(allUserProjects)
   function onProjectButtonClick(projectId, e) {
     if (e.target.value === "user_authored_project") {
       fetch(`/projects/${projectId}`, {
@@ -86,12 +89,15 @@ function App() {
         const updatedProjList = projects.filter((project) => project.id !== deleteProject.id)
         setProjects(updatedProjList)
         const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id)
-        setUser({...user, 
-          projects: updatedUserProjList
-        })
+        // setUser({...user, 
+        //   projects: updatedUserProjList
+        // })
+        const newUserProjList = allUserProjects.filter((project) => project.id !== deleteProject.id)
+        setAllUserProjects(newUserProjList)
       })
     } else if (e.target.value === "followed_project") {
-      const followToDelete = user.follows.find((follow) => follow.project_id === projectId)
+      const followedProject = allUserProjects.find((project) => project.id === projectId)
+      const followToDelete = followedProject.follows.find((follow) => follow.user_id === user.id)
       fetch(`/follows/${followToDelete.id}`, {
         method: 'DELETE',
       })
@@ -99,13 +105,16 @@ function App() {
       .then((deletedFollow) => {
         // const followProject = user.followed_projects.find((project) => project.id === deletedFollow.project_id)
         // setProjects([...projects, followProject])
-        const updatedFollowList = user.follows.filter((follow) => follow.id !== deletedFollow.id)
-        const updatedUserFollowProjList = user.followed_projects.filter((project) => project.id !== deletedFollow.project_id)
-        setUser({...user,
-        followed_projects: updatedUserFollowProjList,
-        // follows: updatedFollowList
-        })
+        // const updatedFollowList = user.follows.filter((follow) => follow.id !== deletedFollow.id)
+        // const updatedUserFollowProjList = user.followed_projects.filter((project) => project.id !== deletedFollow.project_id)
+        // setUser({...user,
+        // followed_projects: updatedUserFollowProjList,
+        // // follows: updatedFollowList
+        // })
+        const updatedUserProjList = allUserProjects.filter((project) => project.id !== deletedFollow.project_id)
+        setAllUserProjects(updatedUserProjList)
         getProjects()
+        navigate('/')
       }) 
     } else {
       fetch('/follows', {
@@ -128,10 +137,11 @@ function App() {
         const updatedUserFollowProjList = [...user.followed_projects, updatedFollowOnProject]
         // const updatedProjects = projects.filter((project) => project.id !== follow.project_id)
         // setProjects(updatedProjects)
-        setUser({...user,
-        followed_projects: updatedUserFollowProjList,
-        follows: updatedFollowList
-        })
+        // setUser({...user,
+        // followed_projects: updatedUserFollowProjList,
+        // follows: updatedFollowList
+        // })
+        setAllUserProjects([...allUserProjects, updatedFollowOnProject])
         getProjects()
         navigate('/')
       })
@@ -139,6 +149,7 @@ function App() {
   } 
 
   function onUpdateProjectSubmit(formData) {
+    console.log(formData.description)
     fetch(`/projects/${formData.id}`, {
       method: 'PATCH',
       headers: {
@@ -147,7 +158,7 @@ function App() {
       body: JSON.stringify({
         "title": formData.title,
         "tools_required": formData.tools_required,
-        "tools_recommended": formData.tools_recommended,
+        "description": formData.description,
         "materials": formData.materials,
         "time": formData.time,
         "instructions": formData.instructions,
@@ -174,13 +185,12 @@ function App() {
     });
   }
 
-  function onUpdateProjectClick(e, project) {
+  function onUpdateProjectClick(project) {
     setUpdateProject(project)
     navigate('/new')
   }
 
   function onProjectCardClick(projId) {
-    console.log(projId)
     fetch(`/projects/${projId}`)
     .then((res) => res.json())
     .then((clicked) => {
@@ -208,11 +218,11 @@ function App() {
           }
           />
           <Route path="/" element={
-            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick}/>
+            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick} allUserProjects={allUserProjects}/>
           }
           />
           <Route path="/projects/:id" element={ 
-            <ProjectPage clickedProject={clickedProject}/>
+            <ProjectPage clickedProject={clickedProject} userId={user.id} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
           }
           />
         </Routes>
