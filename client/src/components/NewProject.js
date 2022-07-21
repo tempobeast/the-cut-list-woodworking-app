@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Error, Input, FormField, Label } from "../styles";
+import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 
 function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUpdateProjectSubmit }) {
     
@@ -29,7 +29,6 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
         e.preventDefault();
         onUpdateProjectSubmit(formData)
     }
-console.log(formData)
 
     return (
         <>
@@ -59,7 +58,7 @@ console.log(formData)
             </FormField>
             <FormField>
                 <Label htmlfor="description">Description</Label>
-                <Input
+                <Textarea
                     type="textarea"
                     name="description"
                     autoComplete="off"
@@ -92,7 +91,7 @@ console.log(formData)
             </FormField>
             <FormField>
                 <Label htmlfor="instructions">Instructions</Label>
-                <Input
+                <Textarea
                     type="textarea"
                     name="instructions"
                     autoComplete="off"

@@ -19,7 +19,7 @@ function App() {
   const [projects, setProjects] = useState([])
   const [updateProject, setUpdateProject] = useState(null)
   const [search, setSearch] = useState('')
-  const [clickedProject, setClickedProject] = useState('')
+  // const [clickedProject, setClickedProject] = useState('')
   const [allUserProjects, setAllUserProjects] = useState([])
   const navigate = useNavigate()
 
@@ -88,7 +88,7 @@ function App() {
       .then((deleteProject) => { 
         const updatedProjList = projects.filter((project) => project.id !== deleteProject.id)
         setProjects(updatedProjList)
-        const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id)
+        // const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id)
         // setUser({...user, 
         //   projects: updatedUserProjList
         // })
@@ -130,11 +130,11 @@ function App() {
       })
       .then((res) => res.json())
       .then((follow) => {
-        const updatedFollowList = [...user.follows, follow]
+        // const updatedFollowList = [...user.follows, follow]
         const newFollowProject = projects.find((project) => project.id === follow.project_id)
         const updatedFollowOnProject = {...newFollowProject, 
           follows: [...newFollowProject.follows, follow]}
-        const updatedUserFollowProjList = [...user.followed_projects, updatedFollowOnProject]
+        // const updatedUserFollowProjList = [...user.followed_projects, updatedFollowOnProject]
         // const updatedProjects = projects.filter((project) => project.id !== follow.project_id)
         // setProjects(updatedProjects)
         // setUser({...user,
@@ -191,14 +191,11 @@ function App() {
   }
 
   function onProjectCardClick(projId) {
-    fetch(`/projects/${projId}`)
-    .then((res) => res.json())
-    .then((clicked) => {
-      setClickedProject(clicked)
-      navigate(`/projects/${clicked.id}`)
-    })
+    
+   navigate(`/projects/${projId}`)
+   
+   
   }
-
 
   if (!user) return <LoginPage onLogin={setUser} />
 
@@ -222,7 +219,9 @@ function App() {
           }
           />
           <Route path="/projects/:id" element={ 
-            <ProjectPage clickedProject={clickedProject} userId={user.id} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
+            <ProjectPage projects={projects} 
+            // clickedProject={clickedProject} 
+            userId={user.id} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
           }
           />
         </Routes>

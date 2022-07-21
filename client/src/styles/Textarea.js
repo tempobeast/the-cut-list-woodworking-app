@@ -7,10 +7,14 @@ const Textarea = styled.textarea`
   -webkit-appearance: none;
   max-width: 100%;
   width: 100%;
+  height: 4rem;
   font-size: 1rem;
   line-height: 1.5;
   padding: 4px;
-  resize: none;
+  resize: vertical;
+  margin-left: 50px;
+  margin_right: 50px;
+  overflow: scroll;
 `;
 
 export default Textarea;

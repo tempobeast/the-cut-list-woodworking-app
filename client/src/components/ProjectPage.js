@@ -1,26 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../styles";
+import { useParams } from "react-router-dom"
 
-function ProjectPage({ clickedProject, userId, onProjectButtonClick, onUpdateProjectClick }) {
+function ProjectPage({ userId, onProjectButtonClick, onUpdateProjectClick, projects }) {
 
+    const [clickedProject, setClickedProject] = useState({})
+    const [cardStatus, setCardStatus] = useState('')
+
+    const {id} = useParams();
+useEffect(() => {
+     fetch(`/projects/${id}`)
+    .then((res) => res.json())
+    .then((clicked) => {
+      setClickedProject(clicked)
+        if (clicked.user_id === userId) {
+            setCardStatus("user_authored_project")
+        } else if (clicked.follows.find((follow) => follow.user_id === userId)) {
+            setCardStatus("followed_project")
+        } else {
+            setCardStatus("all_projects")
+        }
+    })
+}, [])
     console.log(clickedProject)
-    
-    const {title, img_url, instructions, materials, time, tools_required, user, description} = clickedProject
 
-    const toolsToDisplay = tools_required.split(', ')
+    const {title, img_url, follows, instructions, materials, time, tools_required, user, description} = clickedProject
+
     // const materialsToDisplay = materials.split(', ')
 
-    const cardIds = () => {
-        if (clickedProject.user_id === userId) {
-            return "user_authored_project"
-        } else if (clickedProject.follows.find((follow) => follow.user_id === userId)) {
-            return "followed_project"
-        } else {
-            return "all_projects"
-        }
-    }
-    console.log(userId)
-    console.log(cardIds())
+    // const cardIds = () => {
+    //     if (clickedProject.user_id === userId) {
+    //         return "user_authored_project"
+    //     } else if (clickedProject.follows.find((follow) => follow.user_id === userId)) {
+    //         return "followed_project"
+    //     } else {
+    //         return "all_projects"
+    //     }
+    // }
 
 function handleClick(e) {
     onProjectButtonClick(clickedProject.id, e)
@@ -33,9 +49,9 @@ function handleUpdateClick(e) {
     return (
         <div className="project_page">
             <img src={img_url} alt={title} className="project_page_img"/>
-            {cardIds() === "all_projects" ? <Button onClick={handleClick}>add project</Button> : null }
+            {cardStatus === "all_projects" ? <Button onClick={handleClick} className="project_page_button">add project</Button> : null }
             <h1>{title}</h1>
-            <h3>By: {user.username}</h3>
+            <h3>{ user ? `By: ${user.username}` : "By: Me"}</h3>
             <h4>Time: {time}</h4>
             <p>{description}</p>
             <div>
@@ -48,12 +64,12 @@ function handleUpdateClick(e) {
             <div>
                 <h4>Tools used: </h4>
                 <ul>
-                    {toolsToDisplay.map((tool) => <li key={tool}>{tool}</li>)}
+                    {tools_required}
                 </ul>
             </div>
             <p>{instructions}</p>
-            <Button value={cardIds()} onClick={handleClick}>{cardIds() === "user_authored_project" ? "delete project" : cardIds() === "followed_project" ? "remove project" : "add project"}</Button>
-            {cardIds() === "user_authored_project" ? <Button value="update_project" onClick={handleUpdateClick}>update project</Button> : null}
+            <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
+            {cardStatus === "user_authored_project" ? <Button value="update_project" onClick={handleUpdateClick}>update project</Button> : null}
         </div>
     )
 }

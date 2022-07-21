@@ -24,6 +24,10 @@
   padding: 8px;
 }
 
+.project_page_button {
+  margin: 5px auto 5px
+}
+
 .project_image {
   width: 300px;
 }
