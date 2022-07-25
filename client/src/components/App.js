@@ -27,13 +27,16 @@ function App() {
     fetch('/me').then((res) => {
       if (res.ok) {
         res.json().then((user) =>{
+          console.log(user)
           getProjects();
-          setUser(user);
+          // setUser(user);
+          console.log("user projects:", user.projects)
           setAllUserProjects([...user.projects, ...user.followed_projects])
+          console.log([...user.projects, ...user.followed_projects])
         })
       }
     });
-  }, [])
+  }, [user])
 
   const getProjects = () => {
     fetch('/projects')
@@ -42,6 +45,9 @@ function App() {
       setProjects(projects)
     })
   }
+
+  console.log(user)
+  console.log(allUserProjects)
 
   function onNewProjectSubmit(formData) {
     setErrors([]);
@@ -78,7 +84,6 @@ function App() {
     })
   }
 
-  console.log(allUserProjects)
   function onProjectButtonClick(projectId, e) {
     if (e.target.value === "user_authored_project") {
       fetch(`/projects/${projectId}`, {
@@ -181,6 +186,7 @@ function App() {
     { method: "DELETE" }).then((r) => {
       if (r.ok) {
         setUser(null);
+        setAllUserProjects([])
       }
     });
   }
