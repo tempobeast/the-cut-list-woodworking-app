@@ -29,7 +29,7 @@ function App() {
         res.json().then((user) =>{
           console.log(user)
           getProjects();
-          // setUser(user);
+          setUser(user);
           console.log("user projects:", user.projects)
           setAllUserProjects([...user.projects, ...user.followed_projects])
           console.log([...user.projects, ...user.followed_projects])
