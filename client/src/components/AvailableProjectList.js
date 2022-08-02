@@ -2,17 +2,17 @@ import React from "react";
 import ProjectCard from './ProjectCard'
 import '../App.css'
 
-function AvailableProjectList({ projects, onProjectButtonClick, userId, search, onProjectCardClick }) {
+function AvailableProjectList({ projects, onProjectButtonClick, search, onProjectCardClick, user }) {
 
-    const filterUserProjects = projects
-    .filter((project) => project.user_id !== userId)
-    .filter((project) => project.follows < 1 || project.follows.find((follow) => follow.user_id !== userId))
+    const filterNonUserProjects = projects
+    .filter((project) => project.user_id !== user.id)
+    .filter((project) => project.follows.find((follow) => follow.user_id !== user.id) || project.follows < 1)
     .filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
 
     return (
         <div>
             <h2>Available Projects:</h2>
-            {filterUserProjects.map((project) => <ProjectCard all={true} project={project} key={project.id} onProjectButtonClick={onProjectButtonClick} userId={userId} followed={false} onProjectCardClick={onProjectCardClick}/>)}
+            {filterNonUserProjects.map((project) => <ProjectCard all={true} project={project} key={project.id} onProjectButtonClick={onProjectButtonClick} userId={user.id} followed={false} onProjectCardClick={onProjectCardClick}/>)}
         </div>
     )
 }

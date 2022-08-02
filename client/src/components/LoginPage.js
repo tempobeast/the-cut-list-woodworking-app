@@ -9,7 +9,7 @@ function LoginPage({ onLogin }) {
 
   return (
     <Wrapper>
-      <Logo>Wood Shop</Logo>
+      <Logo>The Cut List</Logo>
       {showLogin ? (
         <>
           <LoginForm onLogin={onLogin} />
@@ -40,7 +40,7 @@ function LoginPage({ onLogin }) {
 const Logo = styled.h1`
   font-family: "Arial";
   font-size: 3rem;
-  color: blue;
+  color: rgb(217, 188, 123);
   margin: 8px 0 16px;
 `;
 

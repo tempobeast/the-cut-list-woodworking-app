@@ -2,5 +2,5 @@ class Follow < ApplicationRecord
     belongs_to :user
     belongs_to :project
 
-    # validates :project_id, uniqueness: true
+    validates_uniqueness_of :project_id, :scope => [:user_id]
 end

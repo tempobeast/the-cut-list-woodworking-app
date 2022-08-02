@@ -7,7 +7,7 @@
 }
 
 #followed_project {
-  background-color: rgb(223, 181, 29);
+  background-color: rgb(217, 188, 123);
 }
 
 #all_projects {
@@ -45,3 +45,8 @@
 .project_page {
   margin-top: 50px;
 }
+
+/* .logo {
+  width: 60%;
+  text-align: left;
+} */

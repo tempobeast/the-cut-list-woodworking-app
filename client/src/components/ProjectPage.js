@@ -8,35 +8,22 @@ function ProjectPage({ userId, onProjectButtonClick, onUpdateProjectClick, proje
     const [cardStatus, setCardStatus] = useState('')
 
     const {id} = useParams();
-useEffect(() => {
-     fetch(`/projects/${id}`)
-    .then((res) => res.json())
-    .then((clicked) => {
-      setClickedProject(clicked)
-        if (clicked.user_id === userId) {
-            setCardStatus("user_authored_project")
-        } else if (clicked.follows.find((follow) => follow.user_id === userId)) {
-            setCardStatus("followed_project")
-        } else {
-            setCardStatus("all_projects")
-        }
-    })
-}, [])
-    console.log(clickedProject)
+    useEffect(() => {
+        fetch(`/projects/${id}`)
+        .then((res) => res.json())
+        .then((clicked) => {
+        setClickedProject(clicked)
+            if (clicked.user_id === userId) {
+                setCardStatus("user_authored_project")
+            } else if (clicked.follows.find((follow) => follow.user_id === userId)) {
+                setCardStatus("followed_project")
+            } else {
+                setCardStatus("all_projects")
+            }
+        })
+    }, [id, userId])
 
-    const {title, img_url, follows, instructions, materials, time, tools_required, user, description} = clickedProject
-
-    // const materialsToDisplay = materials.split(', ')
-
-    // const cardIds = () => {
-    //     if (clickedProject.user_id === userId) {
-    //         return "user_authored_project"
-    //     } else if (clickedProject.follows.find((follow) => follow.user_id === userId)) {
-    //         return "followed_project"
-    //     } else {
-    //         return "all_projects"
-    //     }
-    // }
+    const {title, img_url, instructions, materials, time, tools_required, user, description} = clickedProject
 
 function handleClick(e) {
     onProjectButtonClick(clickedProject.id, e)
@@ -56,10 +43,7 @@ function handleUpdateClick(e) {
             <p>{description}</p>
             <div>
                 <h4>Materials used: </h4>
-                <ul>
-                    <li>{materials}</li>
-                    {/* {materialsToDisplay[0].map((material) => <li>{material}</li>)} */}
-                </ul>
+                <p>{materials}</p>
             </div>
             <div>
                 <h4>Tools used: </h4>

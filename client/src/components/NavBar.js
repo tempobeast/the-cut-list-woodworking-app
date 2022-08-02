@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button, FormField, Input } from "../styles";
+import '../App.css';
+
 
 function NavBar({ onLogoutClick, setSearch }) {
 
@@ -12,7 +14,9 @@ function NavBar({ onLogoutClick, setSearch }) {
   return (
     <Wrapper>
       <Logo>
-        <Link to="/">The Cut List</Link>
+        <Link to="/">
+          <img className="logo"src="/CutListLogo-01.png" alt="The Cut List"/>
+        </Link>
       </Logo>
       <Nav>
       <Button as={Link} to="/">
@@ -43,16 +47,8 @@ const Wrapper = styled.header`
 `;
 
 const Logo = styled.h1`
-  font-family: "Arial";
-  font-size: 3rem;
-  color: rgb(223, 181, 29);
-  margin: 0;
-  line-height: 1;
+width: "50%"
 
-  a {
-    color: rgb(223, 181, 29);
-    text-decoration: none;
-  }
 `;
 
 const Nav = styled.nav`

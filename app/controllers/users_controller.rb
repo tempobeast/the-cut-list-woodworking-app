@@ -8,8 +8,11 @@ class UsersController < ApplicationController
     end
 
     def show
+        # byebug
         user = User.find_by(id: session[:user_id])
+        # byebug
         if user
+            # byebug
             render json: user, status: :ok
         else
             render json: {errors: ["Not authorized"]}, status: :unauthorized
