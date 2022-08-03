@@ -199,7 +199,7 @@ function App() {
 
   function onUpdateProjectClick(project) {
     setUpdateProject(project)
-    navigate('/new')
+    navigate('/new_project')
   }
 
   function onProjectCardClick(projId) {
