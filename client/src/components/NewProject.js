@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
+import '../App.css';
 
 function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUpdateProjectSubmit }) {
     

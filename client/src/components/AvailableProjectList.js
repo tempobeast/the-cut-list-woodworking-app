@@ -16,7 +16,7 @@ function AvailableProjectList({ projects, onProjectButtonClick, search, onProjec
     const filterNonUserProjects = projects
     // .filter((project) => project.user_id !== user.id)
     .filter((project) => !allUserProjects.includes(project.id))
-    .filter((project) => project.title.toLowerCase().startsWith(search.toLowerCase()))
+    .filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
 
     console.log(projects)
     console.log(filterNonUserProjects)

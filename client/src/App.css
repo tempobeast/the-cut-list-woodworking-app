@@ -39,14 +39,11 @@
 }
 
 .project_page_img {
-  width: 50%;
+  width: 75%;
 }
 
 .project_page {
-  margin-top: 50px;
+  margin: 50px auto;
+  width: 60%
 }
 
-/* .logo {
-  width: 60%;
-  text-align: left;
-} */

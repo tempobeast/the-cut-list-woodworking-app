@@ -29,8 +29,6 @@ function App() {
         res.json().then((user) => {
           setUser(user);
           navigate('/')
-          // getProjects();
-          // setAllUserProjects([...user.projects, ...user.followed_projects])
         })
       }
     });

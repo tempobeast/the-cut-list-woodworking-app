@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Error, Input, FormField, Label } from "../styles";
+import '../App.css';
 
 function LoginForm( {onLogin} ) {
     const [username, setUsername] = useState("");

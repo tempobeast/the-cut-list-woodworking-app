@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../styles";
 import { useParams } from "react-router-dom"
+import '../App.css';
+
 
 function ProjectPage({ userId, onProjectButtonClick, onUpdateProjectClick, projects }) {
 
@@ -36,9 +38,9 @@ function handleUpdateClick(e) {
     return (
         <div className="project_page">
             <img src={img_url} alt={title} className="project_page_img"/>
-            {cardStatus === "all_projects" ? <Button onClick={handleClick} className="project_page_button">add project</Button> : null }
             <h1>{title}</h1>
             <h3>{ user ? `By: ${user.username}` : "By: Me"}</h3>
+            {cardStatus === "all_projects" ? <Button onClick={handleClick} className="project_page_button">add project</Button> : null }
             <h4>Time: {time}</h4>
             <p>{description}</p>
             <div>
@@ -47,9 +49,9 @@ function handleUpdateClick(e) {
             </div>
             <div>
                 <h4>Tools used: </h4>
-                <ul>
-                    {tools_required}
-                </ul>
+                <p>
+                {tools_required}
+                </p>
             </div>
             <p>{instructions}</p>
             <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>

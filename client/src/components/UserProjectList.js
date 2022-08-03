@@ -5,7 +5,7 @@ import '../App.css'
 function UserProjectList({ user, onProjectButtonClick, userId, onUpdateProjectClick, onProjectCardClick, search }) {
 
     const userProjects = [...user.projects, ...user.followed_projects]
-    const filterUserProjects = userProjects.filter((project) => project.title.toLowerCase().startsWith(search.toLowerCase()))
+    const filterUserProjects = userProjects.filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
 
     
     return (
