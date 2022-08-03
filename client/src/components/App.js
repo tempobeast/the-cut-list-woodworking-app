@@ -26,14 +26,27 @@ function App() {
   useEffect(() => {
     fetch('/me').then((res) => {
       if (res.ok) {
-        res.json().then((user) =>{
+        res.json().then((user) => {
           setUser(user);
-          getProjects();
+          navigate('/')
+          // getProjects();
           // setAllUserProjects([...user.projects, ...user.followed_projects])
         })
       }
     });
   }, [])
+
+  useEffect(() => {
+    fetch('/projects/')
+    .then((res) => {
+      if (res.ok) {
+        res.json().then((fetchedProjects) => {
+          setProjects(fetchedProjects)
+        })
+      }
+    })
+  }, [user])
+
 
   const getProjects = () => {
     fetch('/projects')
@@ -181,7 +194,7 @@ function App() {
     { method: "DELETE" }).then((r) => {
       if (r.ok) {
         setUser(null);
-        // setAllUserProjects([])
+        setProjects([])
       }
     });
   }
@@ -203,17 +216,17 @@ function App() {
       <main>
         <NavBar onLogoutClick={onLogoutClick} setSearch={setSearch} />
         <Routes>
-          <Route path="/new" element={
+          <Route path="/new_project" element={
             <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading} updateProject={updateProject} onUpdateProjectSubmit={onUpdateProjectSubmit}/>
           }
           />
-          <Route path="/projects" element={
+          <Route path="/available_projects" element={
             <AvailableProjectList projects={projects} 
             onProjectButtonClick={onProjectButtonClick} user={user} userId={user.id} search={search} onProjectCardClick={onProjectCardClick}/>
           }
           />
           <Route path="/" element={
-            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick} />
+            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick}/>
           }
           />
           <Route path="/projects/:id" element={ 

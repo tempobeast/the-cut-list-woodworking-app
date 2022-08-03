@@ -12,30 +12,33 @@ function NavBar({ onLogoutClick, setSearch }) {
   }
 
   return (
-    <Wrapper>
-      <Logo>
-        <Link to="/">
-          <img className="logo"src="/CutListLogo-01.png" alt="The Cut List"/>
-        </Link>
-      </Logo>
-      <Nav>
-      <Button as={Link} to="/">
-          My Projects
-        </Button>
-      <Button as={Link} to="/projects">
-          Available Projects
-        </Button>
-        <Button as={Link} to="/new">
-          New Project
-        </Button>
-        <Button variant="outline" onClick={onLogoutClick}>
-          Logout
-        </Button>
-      </Nav>
-      <FormField >
-        <Input type="text" placeholder="search" onChange={handleChange} />
-      </FormField>
-    </Wrapper>
+    <div>
+      
+        <Logo>
+          <Link to="/">
+            <img className="logo"src="/CutListLogo-01.png" alt="The Cut List"/>
+          </Link>
+        </Logo>
+        <Wrapper>
+        <Nav>
+        <Button as={Link} to="/">
+            My Projects
+          </Button>
+        <Button as={Link} to="/available_projects">
+            Available Projects
+          </Button>
+          <Button as={Link} to="/new_project">
+            New Project
+          </Button>
+          <Button variant="outline" onClick={onLogoutClick}>
+            Logout
+          </Button>
+        </Nav>
+        <FormField >
+          <Input type="text" placeholder="search" onChange={handleChange} />
+        </FormField>
+      </Wrapper>
+    </div>
   );
 }
 

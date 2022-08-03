@@ -23,7 +23,7 @@ function LoginForm( {onLogin} ) {
                 res.json().then((user) => onLogin(user))
                 navigate('/')
             } else {
-                res.json().then((errors) => setErrors(errors));
+                res.json().then((errors) => setErrors(errors.errors));
             }
         })
     }

@@ -9,7 +9,9 @@ function LoginPage({ onLogin }) {
 
   return (
     <Wrapper>
-      <Logo>The Cut List</Logo>
+      <Logo>
+        <img src="/CutlistLogo-small-01.png" alt="Cut list logo"/>
+      </Logo>
       {showLogin ? (
         <>
           <LoginForm onLogin={onLogin} />
