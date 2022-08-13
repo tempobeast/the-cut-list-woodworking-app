@@ -1,15 +1,12 @@
 import '../App.css';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate} from 'react-router-dom';
-// import Header from './Header'
 import LoginPage from './LoginPage';
 import NavBar from './NavBar';
 import NewProject from './NewProject';
 import UserProjectList from './UserProjectList';
 import AvailableProjectList from './AvailableProjectList';
 import ProjectPage from './ProjectPage';
-
-// import ProjectList from './ProjectList';
 
 function App() {
 
@@ -19,8 +16,6 @@ function App() {
   const [projects, setProjects] = useState([])
   const [updateProject, setUpdateProject] = useState(null)
   const [search, setSearch] = useState('')
-  // const [clickedProject, setClickedProject] = useState('')
-  // const [allUserProjects, setAllUserProjects] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -96,18 +91,13 @@ function App() {
       })
       .then((res) => res.json())
       .then((deleteProject) => { 
-        // const updatedProjList = projects.filter((project) => project.id !== deleteProject.id)
-        // setProjects(updatedProjList)
         getProjects()
         const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id)
         setUser({...user, 
           projects: updatedUserProjList
         })
-        // const newUserProjList = allUserProjects.filter((project) => project.id !== deleteProject.id)
-        // setAllUserProjects(newUserProjList)
       })
     } else if (e.target.value === "followed_project") {
-      // const followedProject = allUserProjects.find((project) => project.id === projectId)
       const followedProject = projects.find((project) => project.id === projectId)
       const followToDelete = followedProject.follows.find((follow) => follow.user_id === user.id)
       fetch(`/follows/${followToDelete.id}`, {
@@ -115,16 +105,12 @@ function App() {
       })
       .then((res) => res.json())
       .then((deletedFollow) => {
-        // const followProject = user.followed_projects.find((project) => project.id === deletedFollow.project_id)
-        // setProjects([...projects, followProject])
         const updatedFollowList = user.follows.filter((follow) => follow.id !== deletedFollow.id)
         const updatedUserFollowProjList = user.followed_projects.filter((project) => project.id !== deletedFollow.project_id)
         setUser({...user,
         followed_projects: updatedUserFollowProjList,
         follows: updatedFollowList
         })
-        // const updatedUserProjList = allUserProjects.filter((project) => project.id !== deletedFollow.project_id)
-        // setAllUserProjects(updatedUserProjList)
         getProjects()
         navigate('/')
       }) 
@@ -147,13 +133,10 @@ function App() {
         const updatedFollowOnProject = {...newFollowProject, 
           follows: [...newFollowProject.follows, follow]}
         const updatedUserFollowProjList = [...user.followed_projects, updatedFollowOnProject]
-        // const updatedProjects = projects.filter((project) => project.id !== follow.project_id)
-        // setProjects(updatedProjects)
         setUser({...user,
         followed_projects: updatedUserFollowProjList,
         follows: updatedFollowList
         })
-        // setAllUserProjects([...allUserProjects, updatedFollowOnProject])
         getProjects()
         navigate('/')
       })
@@ -210,7 +193,6 @@ function App() {
 
   return (
     <div className='App'>
-      {/* <Header /> */}
       <main>
         <NavBar onLogoutClick={onLogoutClick} setSearch={setSearch} />
         <Routes>
@@ -229,7 +211,6 @@ function App() {
           />
           <Route path="/projects/:id" element={ 
             <ProjectPage projects={projects} 
-            // clickedProject={clickedProject} 
             userId={user.id} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
           }
           />

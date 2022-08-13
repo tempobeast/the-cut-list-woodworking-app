@@ -29,6 +29,16 @@ function LoginForm( {onLogin} ) {
         })
     }
 
+    function handleUsernameChange(e) {
+        setIsLoading(false)
+        setUsername(e.target.value)
+    }
+
+    function handlePasswordChange(e) {
+        setIsLoading(false)
+        setPassword(e.target.value)
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <FormField>
@@ -38,7 +48,7 @@ function LoginForm( {onLogin} ) {
                     id="username"
                     autoComplete="off"
                     value={username}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={handleUsernameChange}
                     required
                 />
             </FormField>
@@ -49,7 +59,7 @@ function LoginForm( {onLogin} ) {
                     id="password"
                     autoComplete="current-password"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                     required
                 />
             </FormField>

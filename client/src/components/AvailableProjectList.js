@@ -3,8 +3,6 @@ import ProjectCard from './ProjectCard'
 import '../App.css'
 
 function AvailableProjectList({ projects, onProjectButtonClick, search, onProjectCardClick, user }) {
-    console.log(user.id)
-    console.log(projects)
 
     const allUserProjects = []
     user.projects.map((project) => allUserProjects.push(project.id))
@@ -14,13 +12,8 @@ function AvailableProjectList({ projects, onProjectButtonClick, search, onProjec
 
 
     const filterNonUserProjects = projects
-    // .filter((project) => project.user_id !== user.id)
     .filter((project) => !allUserProjects.includes(project.id))
     .filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
-
-    console.log(projects)
-    console.log(filterNonUserProjects)
-    console.log(user.id)
 
     return (
         <div>

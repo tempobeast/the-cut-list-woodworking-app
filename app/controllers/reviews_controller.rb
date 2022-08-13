@@ -1,4 +1,4 @@
-class ReviewsController < ApplicationController
+# class ReviewsController < ApplicationController
 
-    before_action :authorize
-end
+#     before_action :authorize
+# end
