@@ -13,30 +13,33 @@ function SignUpForm( {onLogin} ) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        setErrors([]);
-        setIsLoading(true);
-        fetch('/signup', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username,
-                password,
-                password_confirmation: passwordConfirmation,
-                img_url: imageUrl,
-                bio,
-            }),
-        }).then((res) => {
-            setIsLoading(false);
-            if (res.ok) {
-                res.json().then((user) => onLogin(user))
-            } else {
-                res.json().then((errors) => setErrors(errors))
-            }
-        });
+        if (password !== passwordConfirmation) {
+            alert("Passwords do not match")
+        } else {
+            setErrors([]);
+            setIsLoading(true);
+            fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    password_confirmation: passwordConfirmation,
+                    img_url: imageUrl,
+                    bio,
+                }),
+            }).then((res) => {
+                setIsLoading(false);
+                if (res.ok) {
+                    res.json().then((user) => onLogin(user))
+                } else {
+                    res.json().then((errors) => setErrors(errors.errors))
+                }
+            });
+        }
     }
-    
 
     return (
         <form onSubmit={handleSubmit}>
@@ -60,16 +63,20 @@ function SignUpForm( {onLogin} ) {
                 autoComplete="current-password"
                 />
             </FormField>
-            <FormField>
-                <Label htmlFor="password">Password Confirmation</Label>
-                <Input
-                type="password"
-                id="password_confirmation"
-                value={passwordConfirmation}
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                autoComplete="current-password"
-                />
-            </FormField>
+            <div id="confirmation_div">
+                <FormField>
+                    <Label htmlFor="password">Password Confirmation</Label>
+                    <Input
+                    type="password"
+                    id="password_confirmation"
+                    value={passwordConfirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    autoComplete="current-password"
+                    style={password === passwordConfirmation? {color: "green"} : {color: "red"}}
+                    />
+                </FormField>
+                
+            </div>
             <FormField>
                 <Label htmlFor="imageUrl">Profile Image</Label>
                 <Input

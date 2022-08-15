@@ -23,7 +23,7 @@ function App() {
       if (res.ok) {
         res.json().then((user) => {
           setUser(user);
-          navigate('/')
+          // navigate('/')
         })
       }
     });
@@ -182,7 +182,7 @@ function App() {
 
   function onUpdateProjectClick(project) {
     setUpdateProject(project)
-    navigate('/new_project')
+    navigate('/update_project')
   }
 
   function onProjectCardClick(projId) {
@@ -197,7 +197,11 @@ function App() {
         <NavBar onLogoutClick={onLogoutClick} setSearch={setSearch} />
         <Routes>
           <Route path="/new_project" element={
-            <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading} updateProject={updateProject} onUpdateProjectSubmit={onUpdateProjectSubmit}/>
+            <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading} />
+          }
+          />
+          <Route path="/update_project" element={
+            <NewProject  errors={errors} isLoading={isLoading} updateProject={updateProject} onUpdateProjectSubmit={onUpdateProjectSubmit}/>
           }
           />
           <Route path="/available_projects" element={
@@ -216,8 +220,6 @@ function App() {
           />
         </Routes>
       </main>
-
-     
     </div>
   );
 }

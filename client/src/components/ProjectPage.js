@@ -53,7 +53,10 @@ function handleUpdateClick(e) {
                 {tools_required}
                 </p>
             </div>
-            <p className="p_wrap">{instructions}</p>
+            <div>
+                <h4>Instructions:</h4>
+                <p className="p_wrap">{instructions}</p>
+            </div>
             <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
             {cardStatus === "user_authored_project" ? <Button value="update_project" onClick={handleUpdateClick}>update project</Button> : null}
         </div>

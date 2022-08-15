@@ -8,9 +8,6 @@ function AvailableProjectList({ projects, onProjectButtonClick, search, onProjec
     user.projects.map((project) => allUserProjects.push(project.id))
     user.followed_projects.map((project) => allUserProjects.push(project.id))
     
-    console.log(allUserProjects)
-
-
     const filterNonUserProjects = projects
     .filter((project) => !allUserProjects.includes(project.id))
     .filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
