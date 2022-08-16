@@ -91,11 +91,12 @@ function App() {
       })
       .then((res) => res.json())
       .then((deleteProject) => { 
-        getProjects()
-        const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id)
+        getProjects();
+        const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id);
         setUser({...user, 
           projects: updatedUserProjList
-        })
+        });
+        navigate ("/");
       })
     } else if (e.target.value === "followed_project") {
       const followedProject = projects.find((project) => project.id === projectId)
