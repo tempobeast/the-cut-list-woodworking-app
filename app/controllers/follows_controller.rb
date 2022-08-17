@@ -1,20 +1,22 @@
 class FollowsController < ApplicationController
 
     def destroy
-        follow = Follow.find(params[:id])
+        user = find_user
+        follow = user.follows.find(params[:id])
         follow.destroy
         render json: follow, head: :no_content
     end
 
     def create
-        follow = Follow.create!(follow_params)
+        user = find_user
+        follow = user.follows.create!(follow_params)
         render json: follow, status: :created
     end
 
     private
 
     def follow_params
-        params.permit(:user_id, :project_id, :follow_type)
+        params.permit(:project_id, :follow_type)
     end
 
     def render_not_found_response

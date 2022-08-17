@@ -7,7 +7,9 @@ class ProjectsController < ApplicationController
     end
 
     def index
-        projects = Project.all
+        user = find_user
+        projects = Project.where.missing(:follows).where.not(user_id: user.id) + Project.where(follows: Follow.where.not(user_id: user.id)).where.not(user_id: user.id)
+        # projects = non_user_projects.where.not(user_id: user.id)
         render json: projects, status: :ok
     end
 
@@ -40,8 +42,6 @@ class ProjectsController < ApplicationController
         render json: { errors: ["Project not found"] }, status: :not_found
     end
 
-    def find_user
-        User.find_by(id: session[:user_id])
-    end
+   
 
 end

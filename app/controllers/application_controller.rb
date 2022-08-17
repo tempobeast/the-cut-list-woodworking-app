@@ -16,4 +16,8 @@ before_action :authorize
     render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
   end
 
+  def find_user
+    User.find_by(id: session[:user_id])
+end
+
 end

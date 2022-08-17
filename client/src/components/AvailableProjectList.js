@@ -5,12 +5,14 @@ import '../App.css'
 function AvailableProjectList({ projects, onProjectButtonClick, search, onProjectCardClick, user }) {
 
     const allUserProjects = []
-    user.projects.map((project) => allUserProjects.push(project.id))
+    // user.projects.map((project) => allUserProjects.push(project.id))
     user.followed_projects.map((project) => allUserProjects.push(project.id))
     
     const filterNonUserProjects = projects
     .filter((project) => !allUserProjects.includes(project.id))
     .filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
+
+
 
     return (
         <div>
