@@ -7,6 +7,7 @@ import NewProject from './NewProject';
 import UserProjectList from './UserProjectList';
 import AvailableProjectList from './AvailableProjectList';
 import ProjectPage from './ProjectPage';
+import ProjectInstructionsContainer from './ProjectInstructionsContainer';
 
 function App() {
 
@@ -49,7 +50,7 @@ function App() {
     })
   }
 
-  function onNewProjectSubmit(formData) {
+  function onNewProjectSubmit(formData, e) {
     setErrors([]);
     setIsLoading(true);
     fetch ('/projects', {
@@ -76,10 +77,10 @@ function App() {
           })
           setProjects([...projects, newProject])
           // setAllUserProjects([newProject, ...allUserProjects])
-          navigate('/')
+          navigate(e.target.value === "instructions" ? `/projects/${newProject.id}/update_instructions` : '/')
         })
       } else {
-        res.json().then((errors) => setErrors(errors))
+        res.json().then((errors) => setErrors(errors.errors))
         }
     })
   }
@@ -219,6 +220,9 @@ function App() {
             userId={user.id} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick}/>
           }
           />
+          <Route path="/projects/:id/update_instructions" element={
+            <ProjectInstructionsContainer/>
+          } />
         </Routes>
       </main>
     </div>
