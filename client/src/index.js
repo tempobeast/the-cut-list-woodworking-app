@@ -4,10 +4,19 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { UserProvider } from './context/user'
+import { ProjectsProvider } from './context/projects'
+import { ProjectToUpdateProvider } from './context/projectToUpdate';
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <UserProvider>
+      <ProjectsProvider>
+        <ProjectToUpdateProvider>
+          <App />
+        </ProjectToUpdateProvider>
+      </ProjectsProvider>
+    </UserProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );
