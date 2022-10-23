@@ -53,4 +53,19 @@
   line-height: 30px;
 }
 
+.logo {
+  width: 50%
+}
 
+.project-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.step-image {
+ width: 300px;
+ height: auto;
+ margin: 0 auto;
+}
