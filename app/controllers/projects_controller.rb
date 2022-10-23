@@ -3,13 +3,12 @@ class ProjectsController < ApplicationController
     def create
         user = find_user
         project = user.projects.create!(project_params)
-        render json: project, status: :created
+        render json: [project, user], status: :created
     end
 
     def index
         user = find_user
         projects = Project.where.missing(:follows).where.not(user_id: user.id) + Project.where(follows: Follow.where.not(user_id: user.id)).where.not(user_id: user.id)
-        # projects = non_user_projects.where.not(user_id: user.id)
         render json: projects, status: :ok
     end
 
@@ -24,7 +23,7 @@ class ProjectsController < ApplicationController
         user = find_user
         project = user.projects.find(params[:id])
         project.update!(project_params)
-        render json: project, status: :accepted
+        render json: [project, user], status: :accepted
     end
 
     def show

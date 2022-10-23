@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button } from "../styles";
 import { useParams } from "react-router-dom"
 import '../App.css';
+import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
 
 
 function ProjectPage({ userId, onProjectButtonClick, onUpdateProjectClick, projects }) {
-
+    
+    const { setProjectToUpdate } = useContext(ProjectToUpdateContext)
     const [clickedProject, setClickedProject] = useState({})
     const [cardStatus, setCardStatus] = useState('')
 
     const {id} = useParams();
+
     useEffect(() => {
         fetch(`/projects/${id}`)
         .then((res) => res.json())
         .then((clicked) => {
-        setClickedProject(clicked)
+            setClickedProject(clicked)
             if (clicked.user_id === userId) {
                 setCardStatus("user_authored_project")
             } else if (clicked.follows.find((follow) => follow.user_id === userId)) {
@@ -25,15 +28,15 @@ function ProjectPage({ userId, onProjectButtonClick, onUpdateProjectClick, proje
         })
     }, [id, userId])
 
-    const {title, img_url, instructions, materials, time, tools_required, user, description} = clickedProject
+    const {title, img_url, instruction_steps, materials, time, tools_required, user, description} = clickedProject
 
-function handleClick(e) {
-    onProjectButtonClick(clickedProject.id, e)
-}
+    function handleClick(e) {
+        onProjectButtonClick(clickedProject.id, e)
+    }
 
-function handleUpdateClick(e) {
-    onUpdateProjectClick(clickedProject, e)
-}
+    function handleUpdateClick(e) {
+        onUpdateProjectClick(clickedProject, e)
+    }
 
     return (
         <div className="project_page">
@@ -55,10 +58,16 @@ function handleUpdateClick(e) {
             </div>
             <div>
                 <h4>Instructions:</h4>
-                <p className="p_wrap">{instructions}</p>
+                {instruction_steps ? instruction_steps.map((step) => (
+                    <div key={step.id}>
+                        <h5>Step {step.step_number}</h5>
+                        <p>{step.step_detail}</p>
+                        <img src={step.image_url} alt={step.step_detail} className="step-image" />
+                    </div>
+                )) : null}
             </div>
             <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
-            {cardStatus === "user_authored_project" ? <Button value="update_project" onClick={handleUpdateClick}>update project</Button> : null}
+            {cardStatus === "user_authored_project" ? <Button value="update_project" onClick={() => setProjectToUpdate(clickedProject)}>update project</Button> : null}
         </div>
     )
 }

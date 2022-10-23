@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import '../App.css';
+import { ProjectToUpdateContext } from "../context/projectToUpdate";
 
 function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, userId, all, onProjectCardClick }) {
     const {title, time, description, img_url} = project
-
+    const { setProjectToUpdate } = useContext(ProjectToUpdateContext)
+    const navigate = useNavigate()
     const cardIds = () => {
         if (project.user_id === userId) {
             return "user_authored_project"
@@ -16,7 +19,9 @@ function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, user
 
     function handleUpdateClick(e) {
         e.stopPropagation();
-        onUpdateProjectClick(project, e)
+        setProjectToUpdate(project)
+        navigate(`/update_project`)
+        // onUpdateProjectClick(project, e)
     }
 
     function handleButtonClick(e) {

@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import '../App.css';
+import {ProjectsContext} from '../context/projects.js'
+import {UserContext} from '../context/user.js'
+import {ProjectToUpdateContext} from '../context/projectToUpdate.js'
 
-function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUpdateProjectSubmit }) {
+function NewProject({ onUpdateProjectSubmit }) {
     
+    const navigate = useNavigate()
+    const { setUser } = useContext(UserContext)
+    const { projects, setProjects } = useContext(ProjectsContext)
+    const {projectToUpdate} = useContext(ProjectToUpdateContext)
+    const [errors, setErrors] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const [formData, setFormData] = useState(
-        updateProject ? updateProject :
+        projectToUpdate ? projectToUpdate :
         { 
         title: "",
         tools_required: "",
         description: "",
         materials: "",
         time: "",
-        instructions: "",
         img_url: "",
     })
 
@@ -23,18 +32,44 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
 
     function handleSubmit(e) {
         e.preventDefault();
-        onNewProjectSubmit(formData)
+        setErrors([]);
+        setIsLoading(true);
+        fetch (projectToUpdate ? `/projects/${projectToUpdate.id}` : '/projects' , {
+          method: projectToUpdate ? "PATCH" : "POST",
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        })
+        .then((res) => {
+          setIsLoading(false);
+          if (res.ok) {
+            res.json().then((data) => { 
+                const newProject = data[0];
+                const updatedUser = data[1];
+                setUser(updatedUser);
+                setProjects([...projects, newProject]);
+                navigate(e.target.value === "instructions" ? `/projects/${newProject.id}/update_instructions` : '/')
+              
+            })
+          } else {
+            res.json().then((errors) => setErrors(errors.errors))
+            }
+        })
+      }
+
+    function handleUpdateInstructions(e) {
+        e.preventDefault();
+        onUpdateProjectSubmit(formData, e)
+
     }
 
-    function handleUpdate(e) {
-        e.preventDefault();
-        onUpdateProjectSubmit(formData)
-    }
+   
 
     return (
         <>
             <h3>Create a new project</h3>
-            <form onSubmit={updateProject ? handleUpdate : handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <FormField>
                 <Label htmlfor="title">Title</Label>
                 <Input 
@@ -44,6 +79,16 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
                     value={formData.title}
                     onChange={handleChange}
                     required
+                />
+            </FormField>
+            <FormField>
+                <Label htmlfor="img_url">Add an Image of the Completed Project</Label>
+                <Input
+                    type="text"
+                    name="img_url"
+                    autoComplete="off"
+                    value={formData.img_url}
+                    onChange={handleChange}
                 />
             </FormField>
             <FormField>
@@ -89,31 +134,13 @@ function NewProject({ onNewProjectSubmit, isLoading, errors, updateProject, onUp
                     onChange={handleChange}
                     required
                 />
-            </FormField>
-            <FormField>
-                <Label htmlfor="instructions">Instructions</Label>
-                <Textarea
-                    type="textarea"
-                    name="instructions"
-                    autoComplete="off"
-                    value={formData.instructions}
-                    onChange={handleChange}
-                    required
-                />
-            </FormField>
-            <FormField>
-                <Label htmlfor="img_url">Add an image</Label>
-                <Input
-                    type="text"
-                    name="img_url"
-                    autoComplete="off"
-                    value={formData.img_url}
-                    onChange={handleChange}
-                />
-            </FormField>
+            </FormField>            
             <FormField>
                 <Button type="submit">
-                    {isLoading ? "Loading..." : updateProject ? "Update Project" : "Submit Project"}
+                    {isLoading ? "Loading..." : projectToUpdate ? "Update Project" : "Submit Project"}
+                </Button>
+                <Button onClick={handleSubmit} value="instructions">
+                    {isLoading ? "Loading..." : projectToUpdate ? "Update Instructions" : "Add Instructions"}
                 </Button>
             </FormField>
             <FormField>
