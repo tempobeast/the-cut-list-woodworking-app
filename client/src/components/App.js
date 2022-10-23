@@ -9,15 +9,14 @@ import AvailableProjectList from './AvailableProjectList';
 import ProjectPage from './ProjectPage';
 import ProjectInstructionsContainer from './ProjectInstructionsContainer';
 import { UserContext } from '../context/user';
+import { ProjectsContext } from '../context/projects';
 
 function App() {
 
-
+  const { projects, setProjects } = useContext(ProjectsContext)
   const { user, setUser } = useContext(UserContext)
-  // const [user, setUser] = useState(false)
   const [errors, setErrors] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [projects, setProjects] = useState([])
   const [updateProject, setUpdateProject] = useState(null)
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
@@ -27,13 +26,11 @@ function App() {
       if (res.ok) {
         res.json().then((user) => {
           setUser(user);
-          // navigate('/')
         })
       }
     });
   }, [])
 
-  console.log(user)
 
   useEffect(() => {
     fetch('/projects/')
@@ -55,43 +52,7 @@ function App() {
     })
   }
 
-  function onNewProjectSubmit(formData, e) {
-    
-    setErrors([]);
-    setIsLoading(true);
-    fetch ('/projects', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "title": formData.title,
-        "tools_required": formData.tools_required,
-        "description": formData.description,
-        "materials": formData.materials,
-        "time": formData.time,
-        "instructions": formData.instructions,
-        "img_url": formData.img_url
-      })
-    })
-    .then((res) => {
-      setIsLoading(false);
-      if (res.ok) {
-        res.json().then((newProject) => { 
-          setUser({...user, 
-            projects: [...user.projects, newProject]
-          })
-          setProjects([...projects, newProject])
-          if (e.target.value === "instructions") {
-            return (<ProjectInstructionsContainer project={newProject}/>)
-          } else {
-            navigate('/')
-          }        })
-      } else {
-        res.json().then((errors) => setErrors(errors.errors))
-        }
-    })
-  }
+
 
   function onProjectButtonClick(projectId, e) {
     if (e.target.value === "user_authored_project") {
@@ -211,7 +172,7 @@ function App() {
         <NavBar onLogoutClick={onLogoutClick} setSearch={setSearch} />
         <Routes>
           <Route path="/new_project" element={
-            <NewProject onNewProjectSubmit={onNewProjectSubmit} errors={errors} isLoading={isLoading} />
+            <NewProject />
           }
           />
           <Route path="/update_project" element={
