@@ -1,5 +1,5 @@
 import '../App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Route, Routes, useNavigate} from 'react-router-dom';
 import LoginPage from './LoginPage';
 import NavBar from './NavBar';
@@ -8,10 +8,13 @@ import UserProjectList from './UserProjectList';
 import AvailableProjectList from './AvailableProjectList';
 import ProjectPage from './ProjectPage';
 import ProjectInstructionsContainer from './ProjectInstructionsContainer';
+import { UserContext } from '../context/user';
 
 function App() {
 
-  const [user, setUser] = useState(false)
+
+  const { user, setUser } = useContext(UserContext)
+  // const [user, setUser] = useState(false)
   const [errors, setErrors] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [projects, setProjects] = useState([])
@@ -29,6 +32,8 @@ function App() {
       }
     });
   }, [])
+
+  console.log(user)
 
   useEffect(() => {
     fetch('/projects/')
@@ -51,6 +56,7 @@ function App() {
   }
 
   function onNewProjectSubmit(formData, e) {
+    
     setErrors([]);
     setIsLoading(true);
     fetch ('/projects', {
@@ -76,9 +82,11 @@ function App() {
             projects: [...user.projects, newProject]
           })
           setProjects([...projects, newProject])
-          // setAllUserProjects([newProject, ...allUserProjects])
-          navigate(e.target.value === "instructions" ? `/projects/${newProject.id}/update_instructions` : '/')
-        })
+          if (e.target.value === "instructions") {
+            return (<ProjectInstructionsContainer project={newProject}/>)
+          } else {
+            navigate('/')
+          }        })
       } else {
         res.json().then((errors) => setErrors(errors.errors))
         }
@@ -145,7 +153,7 @@ function App() {
     }
   } 
 
-  function onUpdateProjectSubmit(formData) {
+  function onUpdateProjectSubmit(formData, e) {
     fetch(`/projects/${formData.id}`, {
       method: 'PATCH',
       headers: {
@@ -168,7 +176,11 @@ function App() {
       const updatedUserProjList = user.projects.filter ((proj) => proj.id !== updateProject.id);
       setUser({...user, 
         projects:[...updatedUserProjList, updatedProject]});
+      if (e.target.value === "instructions") {
+        
+      } else {
         navigate('/')
+      }
     })
   }
 
