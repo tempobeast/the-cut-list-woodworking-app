@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :instruction_steps, :only => [:create, :index]
   # resources :follows
   # resources :reviews
 
