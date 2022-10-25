@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
         user = find_user
         project = user.projects.find(params[:id])
         project.destroy
-        render json: project, head: :no_content
+        render json: user, head: :no_content
     end 
 
     def update
