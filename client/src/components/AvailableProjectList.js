@@ -2,10 +2,6 @@ import React, { useContext } from "react";
 import ProjectCard from './ProjectCard'
 import '../App.css'
 import { ProjectsContext } from "../context/projects";
-import App from "./App";
-import NewProject from "./NewProject";
-import ProjectPage from "./ProjectPage";
-import UserProjectList from "./UserProjectList";
 
 function AvailableProjectList({ onProjectButtonClick, search }) {
 
