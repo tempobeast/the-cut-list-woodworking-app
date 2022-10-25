@@ -33,7 +33,6 @@ end
         description: Faker::Lorem.paragraph(sentence_count: 4),
         materials: Faker::Creature::Bird.order,
         time: Faker::Number.between(from: 1, to: 20),
-        instructions: Faker::Lorem.paragraph(sentence_count: 4),
         img_url: project_essentials[index][:img_url],
         user_id: Faker::Number.between(from: 1, to: 10)
     )
