@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button, FormField, Input } from "../styles";
 import '../App.css';
+import { ProjectToUpdateContext } from "../context/projectToUpdate";
+import { ProjectsContext } from "../context/projects";
+import { UserContext } from "../context/user"
 
 
-function NavBar({ onLogoutClick, setSearch }) {
+function NavBar({ setSearch }) {
+
+  const { setProjectToUpdate } = useContext(ProjectToUpdateContext)
+  const { setProjects } = useContext(ProjectsContext)
+  const { setUser } = useContext(UserContext)
 
   function handleChange(e) {
     setSearch(e.target.value)
+  }
+
+  function onLogoutClick(e) {
+    fetch("/logout", 
+    { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setUser(null);
+        setProjects([])
+      }
+    });
   }
 
   return (
@@ -24,10 +41,10 @@ function NavBar({ onLogoutClick, setSearch }) {
         <Button as={Link} to="/">
             My Projects
           </Button>
-        <Button as={Link} to="/available_projects">
+        <Button as={Link} to="/available_projects" >
             Available Projects
           </Button>
-          <Button as={Link} to="/new_project">
+          <Button as={Link} to="/new_project" onClick={() => setProjectToUpdate('')}>
             New Project
           </Button>
           <Button variant="outline" onClick={onLogoutClick}>
