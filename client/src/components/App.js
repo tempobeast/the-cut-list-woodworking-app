@@ -13,6 +13,7 @@ import { ProjectsContext } from '../context/projects';
 
 function App() {
 
+
   const { projects, setProjects } = useContext(ProjectsContext)
   const { user, setUser } = useContext(UserContext)
   const [errors, setErrors] = useState([])
@@ -29,8 +30,7 @@ function App() {
         })
       }
     });
-  }, [])
-
+  }, [setUser])
 
   useEffect(() => {
     fetch('/projects/')
@@ -41,8 +41,7 @@ function App() {
         })
       }
     })
-  }, [user])
-
+  }, [setProjects])
 
   const getProjects = () => {
     fetch('/projects')
@@ -52,37 +51,26 @@ function App() {
     })
   }
 
-
-
   function onProjectButtonClick(projectId, e) {
     if (e.target.value === "user_authored_project") {
       fetch(`/projects/${projectId}`, {
         method: 'DELETE',
       })
       .then((res) => res.json())
-      .then((deleteProject) => { 
-        getProjects();
-        const updatedUserProjList = user.projects.filter((project) => project.id !== deleteProject.id);
-        setUser({...user, 
-          projects: updatedUserProjList
-        });
+      .then((updatedUser) => { 
+        setUser(updatedUser);
         navigate ("/");
       })
     } else if (e.target.value === "followed_project") {
-      const followedProject = projects.find((project) => project.id === projectId)
+      const followedProject = user.user_related_projects.find((project) => project.id === projectId)
       const followToDelete = followedProject.follows.find((follow) => follow.user_id === user.id)
       fetch(`/follows/${followToDelete.id}`, {
         method: 'DELETE',
       })
       .then((res) => res.json())
-      .then((deletedFollow) => {
-        const updatedFollowList = user.follows.filter((follow) => follow.id !== deletedFollow.id)
-        const updatedUserFollowProjList = user.followed_projects.filter((project) => project.id !== deletedFollow.project_id)
-        setUser({...user,
-        followed_projects: updatedUserFollowProjList,
-        follows: updatedFollowList
-        })
-        getProjects()
+      .then((updatedUser) => {
+        setUser(updatedUser)
+        setProjects([...projects, followedProject])
         navigate('/')
       }) 
     } else {
@@ -98,52 +86,40 @@ function App() {
         })
       })
       .then((res) => res.json())
-      .then((follow) => {
-        const updatedFollowList = [...user.follows, follow]
-        const newFollowProject = projects.find((project) => project.id === follow.project_id)
-        const updatedFollowOnProject = {...newFollowProject, 
-          follows: [...newFollowProject.follows, follow]}
-        const updatedUserFollowProjList = [...user.followed_projects, updatedFollowOnProject]
-        setUser({...user,
-        followed_projects: updatedUserFollowProjList,
-        follows: updatedFollowList
-        })
-        getProjects()
+      .then((updatedUser) => {
+        setUser(updatedUser)
+        const updatedProjects = projects.filter((project) => project.id !== projectId)
+        setProjects(updatedProjects)
         navigate('/')
       })
     }
   } 
 
-  function onUpdateProjectSubmit(formData, e) {
-    fetch(`/projects/${formData.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "title": formData.title,
-        "tools_required": formData.tools_required,
-        "description": formData.description,
-        "materials": formData.materials,
-        "time": formData.time,
-        "instructions": formData.instructions,
-        "img_url": formData.img_url
-      })
-    })
-    .then((res) => res.json())
-    .then((updatedProject) => {
-      const updatedAllProjects = projects.filter((proj) => proj.id !== updatedProject.id);
-      setProjects([...updatedAllProjects, updateProject]);
-      const updatedUserProjList = user.projects.filter ((proj) => proj.id !== updateProject.id);
-      setUser({...user, 
-        projects:[...updatedUserProjList, updatedProject]});
-      if (e.target.value === "instructions") {
-        
-      } else {
-        navigate('/')
-      }
-    })
-  }
+  // function onUpdateProjectSubmit(formData, e) {
+  //   fetch(`/projects/${formData.id}`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       "title": formData.title,
+  //       "tools_required": formData.tools_required,
+  //       "description": formData.description,
+  //       "materials": formData.materials,
+  //       "time": formData.time,
+  //       "instructions": formData.instructions,
+  //       "img_url": formData.img_url
+  //     })
+  //   })
+  //   .then((res) => res.json())
+  //   .then((updatedProject) => {
+  //     const updatedAllProjects = projects.filter((proj) => proj.id !== updatedProject.id);
+  //     setProjects([...updatedAllProjects, updateProject]);
+  //     const updatedUserProjList = user.projects.filter ((proj) => proj.id !== updateProject.id);
+  //     setUser({...user, 
+  //       projects:[...updatedUserProjList, updatedProject]});
+  //   })
+  // }
 
   function onLogoutClick() {
     fetch("/logout", 
@@ -176,7 +152,7 @@ function App() {
           }
           />
           <Route path="/update_project" element={
-            <NewProject  errors={errors} isLoading={isLoading} updateProject={updateProject} onUpdateProjectSubmit={onUpdateProjectSubmit}/>
+            <NewProject  errors={errors} isLoading={isLoading} updateProject={updateProject} />
           }
           />
           <Route path="/available_projects" element={
@@ -185,7 +161,7 @@ function App() {
           }
           />
           <Route path="/" element={
-            <UserProjectList user={user} userId={user.id} projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick}/>
+            <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} onUpdateProjectClick={onUpdateProjectClick} search={search} onProjectCardClick={onProjectCardClick}/>
           }
           />
           <Route path="/projects/:id" element={ 
