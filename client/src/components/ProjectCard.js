@@ -2,15 +2,17 @@ import React, {useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import '../App.css';
 import { ProjectToUpdateContext } from "../context/projectToUpdate";
+import { UserContext } from "../context/user";
 
-function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, userId, all, onProjectCardClick }) {
+function ProjectCard({ project, onProjectButtonClick, all }) {
     const {title, time, description, img_url} = project
     const { setProjectToUpdate } = useContext(ProjectToUpdateContext)
+    const { user } = useContext(UserContext)
     const navigate = useNavigate()
     const cardIds = () => {
-        if (project.user_id === userId) {
+        if (project.user_id === user.id) {
             return "user_authored_project"
-        } else if (project.user_id !== userId && all === true) {
+        } else if (project.user_id !== user.id && all === true) {
             return "all_projects"
         } else {
             return "followed_project"
@@ -21,7 +23,6 @@ function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, user
         e.stopPropagation();
         setProjectToUpdate(project)
         navigate(`/update_project`)
-        // onUpdateProjectClick(project, e)
     }
 
     function handleButtonClick(e) {
@@ -30,7 +31,7 @@ function ProjectCard({ project, onProjectButtonClick, onUpdateProjectClick, user
     }
 
     function handleCardClick(e) {
-        onProjectCardClick(project.id)
+        navigate(`/projects/${project.id}`)
     }
 
     return (

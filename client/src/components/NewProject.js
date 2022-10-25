@@ -2,16 +2,14 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import '../App.css';
-import {ProjectsContext} from '../context/projects.js'
-import {UserContext} from '../context/user.js'
-import {ProjectToUpdateContext} from '../context/projectToUpdate.js'
+import { UserContext } from '../context/user.js'
+import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
 
-function NewProject({ onUpdateProjectSubmit }) {
+function NewProject() {
     
     const navigate = useNavigate()
     const { setUser } = useContext(UserContext)
-    const { projects, setProjects } = useContext(ProjectsContext)
-    const {projectToUpdate} = useContext(ProjectToUpdateContext)
+    const { projectToUpdate } = useContext(ProjectToUpdateContext)
     const [errors, setErrors] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [formData, setFormData] = useState(
@@ -24,6 +22,13 @@ function NewProject({ onUpdateProjectSubmit }) {
         time: "",
         img_url: "",
     })
+
+
+    if (projectToUpdate) {
+        console.log("yep", projectToUpdate)
+    } else {
+        console.log("nope")
+    }
 
     function handleChange(e) {
         setFormData({...formData,
@@ -48,7 +53,6 @@ function NewProject({ onUpdateProjectSubmit }) {
                 const newProject = data[0];
                 const updatedUser = data[1];
                 setUser(updatedUser);
-                setProjects([...projects, newProject]);
                 navigate(e.target.value === "instructions" ? `/projects/${newProject.id}/update_instructions` : '/')
               
             })
@@ -58,17 +62,9 @@ function NewProject({ onUpdateProjectSubmit }) {
         })
       }
 
-    function handleUpdateInstructions(e) {
-        e.preventDefault();
-        onUpdateProjectSubmit(formData, e)
-
-    }
-
-   
-
     return (
         <>
-            <h3>Create a new project</h3>
+            <h3>{projectToUpdate ? "Update Project" : "Create a new project"}</h3>
             <form onSubmit={handleSubmit}>
             <FormField>
                 <Label htmlfor="title">Title</Label>
