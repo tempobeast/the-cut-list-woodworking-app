@@ -24,5 +24,7 @@ In the future this app will have videos and additional pictures for more indepth
 ```bundle install```
 ```rails s```
 
+```rails db:migrate db:seed```
+
 ```npm install --prefix client```
 ```npm start --prefix client```
