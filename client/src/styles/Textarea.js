@@ -12,8 +12,6 @@ const Textarea = styled.textarea`
   line-height: 1.5;
   padding: 4px;
   resize: vertical;
-  margin-left: 50px;
-  margin_right: 50px;
   overflow: scroll;
 `;
 

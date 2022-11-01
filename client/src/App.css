@@ -47,7 +47,6 @@
   width: 60%
 }
 
-
 .p_wrap {
   white-space: pre-line;
   line-height: 30px;
@@ -69,3 +68,9 @@
  height: auto;
  margin: 0 auto;
 }
+
+.new-project-form{
+width: 70%;
+margin: auto;
+}
+
