@@ -6,11 +6,11 @@ The Cut List is a social media network for woodworkers. The purpose of the app i
 
 A user can post their own projects for others to view and try themselves. 
 
-![gif of bio button](https://media.giphy.com/media/NtzVQQyG6ik8mPVoNO/giphy.gif)
+![gif of new project](https://media.giphy.com/media/NtzVQQyG6ik8mPVoNO/giphy.gif)
 
 They can also browse all of the projects posted by other users and add them to their project list to work on themselves.
 
-![gif of bio button](https://media.giphy.com/media/XeUZxgVjILBbAvmZXt/giphy.gif)
+![gif of follow project](https://media.giphy.com/media/XeUZxgVjILBbAvmZXt/giphy.gif)
  
 There is a tally of follows on each project for each time a user add the project to their todo list.
 
