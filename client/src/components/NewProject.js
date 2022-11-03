@@ -63,7 +63,7 @@ function NewProject() {
       }
 
     return (
-        <>
+        <div className="new-project-form">
             <h3>{projectToUpdate ? "Update Project" : "Create a new project"}</h3>
             <form onSubmit={handleSubmit}>
             <FormField>
@@ -145,7 +145,7 @@ function NewProject() {
                 : null}
             </FormField>
         </form>
-    </>
+    </div>
     )
 }
 
