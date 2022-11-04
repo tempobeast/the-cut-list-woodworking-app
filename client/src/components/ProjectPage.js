@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import '../App.css';
 import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
 import { UserContext } from "../context/user";
+import InstructionStep from "./InstructionStep";
 
 
 function ProjectPage({ onProjectButtonClick }) {
@@ -40,6 +41,10 @@ function ProjectPage({ onProjectButtonClick }) {
         navigate(`/update_project`)
     }
 
+    function handleUpdateInstructionsClick() {
+        navigate(`/projects/${projectToUpdate.id}/update_instructions`)
+    }
+
     return (
         <div className="project_page">
             <img src={img_url} alt={title} className="project_page_img"/>
@@ -60,16 +65,25 @@ function ProjectPage({ onProjectButtonClick }) {
             </div>
             <div>
                 <h4>Instructions:</h4>
-                {instruction_steps ? instruction_steps.map((step) => (
-                    <div key={step.id}>
-                        <h5>Step {step.step_number}</h5>
-                        <p>{step.step_detail}</p>
-                        <img src={step.image_url} alt={step.step_detail} className="step-image" />
-                    </div>
+                {instruction_steps ? instruction_steps.sort((a, b) => a.step_number < b.step_number ? -1 : a.step_number > b.step_number ? 1 : 0).map((step) => (
+                    <InstructionStep step={step} key={step.id} cardStatus={cardStatus}/>
+                    // <div key={step.id}>
+                    //     <h5>Step {step.step_number}</h5>
+                    //     <p>{step.step_detail}</p>
+                    //     <img src={step.image_url} alt={step.step_detail} className="step-image" />
+                    // </div>
                 )) : null}
             </div>
             <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
-            {cardStatus === "user_authored_project" ? <Button value="update_project" onClick={handleUpdateClick}>update project</Button> : null}
+            {cardStatus === "user_authored_project" ? (
+                <div>
+                    <Button value="update_project" onClick={handleUpdateClick}>update project</Button> 
+                    <Button value="update_instructions" onClick={handleUpdateInstructionsClick}>update instructions</Button>
+                </div>
+            )
+            : 
+            null
+            }
         </div>
     )
 }
