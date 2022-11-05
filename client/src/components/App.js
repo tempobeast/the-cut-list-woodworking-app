@@ -107,7 +107,7 @@ function App() {
   return (
     <div className='App'>
       <main>
-        <NavBar setSearch={setSearch} />
+        <NavBar />
         <Routes>
           <Route path="/new_project" element={
             <NewProject />
@@ -119,11 +119,11 @@ function App() {
           />
           <Route path="/available_projects" element={
             <AvailableProjectList projects={projects} 
-            onProjectButtonClick={onProjectButtonClick} search={search} errors={errors} />
+            onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch} />
           }
           />
           <Route path="/" element={
-            <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch} errors={errors}/>
+            <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch}/>
           }
           />
           <Route path="/projects/:id" element={ 

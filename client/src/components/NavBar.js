@@ -8,15 +8,11 @@ import { ProjectsContext } from "../context/projects";
 import { UserContext } from "../context/user"
 
 
-function NavBar({ setSearch }) {
+function NavBar() {
 
   const { setProjectToUpdate } = useContext(ProjectToUpdateContext)
   const { setProjects } = useContext(ProjectsContext)
   const { setUser } = useContext(UserContext)
-
-  function handleChange(e) {
-    setSearch(e.target.value)
-  }
 
   function onLogoutClick(e) {
     fetch("/logout", 
@@ -30,7 +26,6 @@ function NavBar({ setSearch }) {
 
   return (
     <div>
-      
         <Logo>
           <Link to="/">
             <img className="logo"src="/CutListLogo-01.png" alt="The Cut List"/>
@@ -51,9 +46,6 @@ function NavBar({ setSearch }) {
             Logout
           </Button>
         </Nav>
-        <FormField >
-          <Input type="text" placeholder="search" onChange={handleChange} />
-        </FormField>
       </Wrapper>
     </div>
   );
