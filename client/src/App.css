@@ -74,3 +74,14 @@ width: 70%;
 margin: auto;
 }
 
+.projects-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+  margin-left: 10%;
+}
+
+.projects-title{
+  margin: 20px
+}
