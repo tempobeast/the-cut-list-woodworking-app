@@ -10,14 +10,15 @@ import ProjectPage from './ProjectPage';
 import ProjectInstructionsContainer from './ProjectInstructionsContainer';
 import { UserContext } from '../context/user';
 import { ProjectsContext } from '../context/projects';
+import { ErrorsContext } from '../context/errors';
 
 function App() {
 
-
+  const { errors, setErrors } = useContext(ErrorsContext)
   const { projects, setProjects } = useContext(ProjectsContext)
   const { user, setUser } = useContext(UserContext)
-  const [errors, setErrors] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  // const [errors, setErrors] = useState([])
+  // const [isLoading, setIsLoading] = useState(false)
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 
@@ -47,23 +48,33 @@ function App() {
       fetch(`/projects/${projectId}`, {
         method: 'DELETE',
       })
-      .then((res) => res.json())
-      .then((updatedUser) => { 
-        setUser(updatedUser);
-        navigate ("/");
-      })
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((updatedUser) => {
+            setUser(updatedUser);
+            navigate("/");
+          });
+        } else {
+          res.json().then((err) => setErrors(err.errors))
+        }
+      });
     } else if (e.target.value === "followed_project") {
       const followedProject = user.user_related_projects.find((project) => project.id === projectId)
       const followToDelete = followedProject.follows.find((follow) => follow.user_id === user.id)
       fetch(`/follows/${followToDelete.id}`, {
         method: 'DELETE',
       })
-      .then((res) => res.json())
-      .then((updatedUser) => {
-        setUser(updatedUser)
-        setProjects([...projects, followedProject])
-        navigate('/')
-      }) 
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((updatedUser) => {
+            setUser(updatedUser);
+            setProjects([...projects, followedProject]);
+            navigate('/');
+          })
+        } else {
+          res.json().then((err) => setErrors(err.errors))
+        }
+      })
     } else {
       fetch('/follows', {
         method: 'POST',
@@ -76,12 +87,17 @@ function App() {
           follow_type: "todo"
         })
       })
-      .then((res) => res.json())
-      .then((updatedUser) => {
-        setUser(updatedUser)
-        const updatedProjects = projects.filter((project) => project.id !== projectId)
-        setProjects(updatedProjects)
-        navigate('/')
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((updatedUser) => {
+            setUser(updatedUser);
+            const updatedProjects = projects.filter((project) => project.id !== projectId);
+            setProjects(updatedProjects);
+            navigate('/');
+          })
+        } else {
+          res.json().then((err) => setErrors(err.errors))
+        }
       })
     }
   } 
@@ -98,16 +114,16 @@ function App() {
           }
           />
           <Route path="/update_project" element={
-            <NewProject  errors={errors} isLoading={isLoading} />
+            <NewProject  errors={errors} />
           }
           />
           <Route path="/available_projects" element={
             <AvailableProjectList projects={projects} 
-            onProjectButtonClick={onProjectButtonClick} search={search} />
+            onProjectButtonClick={onProjectButtonClick} search={search} errors={errors} />
           }
           />
           <Route path="/" element={
-            <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} search={search} />
+            <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch} errors={errors}/>
           }
           />
           <Route path="/projects/:id" element={ 
