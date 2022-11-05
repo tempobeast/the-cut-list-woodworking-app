@@ -23,13 +23,6 @@ function NewProject() {
         img_url: "",
     })
 
-
-    if (projectToUpdate) {
-        console.log("yep", projectToUpdate)
-    } else {
-        console.log("nope")
-    }
-
     function handleChange(e) {
         setFormData({...formData,
             [e.target.name]: e.target.value})
