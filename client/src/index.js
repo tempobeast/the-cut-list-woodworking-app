@@ -7,16 +7,19 @@ import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './context/user'
 import { ProjectsProvider } from './context/projects'
 import { ProjectToUpdateProvider } from './context/projectToUpdate';
+import { ErrorsProvider } from './context/errors';
 
 ReactDOM.render(
   <BrowserRouter>
-    <UserProvider>
-      <ProjectsProvider>
-        <ProjectToUpdateProvider>
-          <App />
-        </ProjectToUpdateProvider>
-      </ProjectsProvider>
-    </UserProvider>
+    <ErrorsProvider>
+      <UserProvider>
+        <ProjectsProvider>
+          <ProjectToUpdateProvider>
+            <App />
+          </ProjectToUpdateProvider>
+        </ProjectsProvider>
+      </UserProvider>
+    </ErrorsProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );
