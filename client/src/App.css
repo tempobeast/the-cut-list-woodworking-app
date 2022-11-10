@@ -85,3 +85,7 @@ margin: auto;
 .projects-title{
   margin: 20px
 }
+
+input {
+  width: 200px
+}
