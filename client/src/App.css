@@ -64,14 +64,14 @@
 }
 
 .step-image {
- width: 300px;
- height: auto;
- margin: 0 auto;
+  width: 300px;
+  height: auto;
+  margin: 0 auto;
 }
 
 .new-project-form{
-width: 70%;
-margin: auto;
+  width: 70%;
+  margin: auto;
 }
 
 .projects-header {

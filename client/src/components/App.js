@@ -11,14 +11,13 @@ import ProjectInstructionsContainer from './ProjectInstructionsContainer';
 import { UserContext } from '../context/user';
 import { ProjectsContext } from '../context/projects';
 import { ErrorsContext } from '../context/errors';
+import { SearchProvider } from '../context/search';
 
 function App() {
 
-  const { errors, setErrors } = useContext(ErrorsContext)
+  const { setErrors } = useContext(ErrorsContext)
   const { projects, setProjects } = useContext(ProjectsContext)
   const { user, setUser } = useContext(UserContext)
-  // const [errors, setErrors] = useState([])
-  // const [isLoading, setIsLoading] = useState(false)
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 
@@ -114,16 +113,21 @@ function App() {
           }
           />
           <Route path="/update_project" element={
-            <NewProject  errors={errors} />
+            <NewProject />
           }
           />
+          
           <Route path="/available_projects" element={
-            <AvailableProjectList projects={projects} 
-            onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch} />
+            <SearchProvider>
+              <AvailableProjectList projects={projects} 
+              onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch} />
+            </SearchProvider>
           }
           />
           <Route path="/" element={
-            <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch}/>
+            <SearchProvider>
+              <UserProjectList projects={projects} onProjectButtonClick={onProjectButtonClick} search={search} setSearch={setSearch}/>
+            </SearchProvider>
           }
           />
           <Route path="/projects/:id" element={ 

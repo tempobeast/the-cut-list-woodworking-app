@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Button, FormField, Input } from "../styles";
+import { Button } from "../styles";
 import '../App.css';
 import { ProjectToUpdateContext } from "../context/projectToUpdate";
 import { ProjectsContext } from "../context/projects";

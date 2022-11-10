@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import '../App.css';
+import { ErrorsContext } from "../context/errors";
 
 function SignUpForm( {onLogin} ) {
+    const { errors, setErrors } = useContext(ErrorsContext)
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [bio, setBio] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState([]) 
 
     function handleSubmit(e) {
         e.preventDefault();

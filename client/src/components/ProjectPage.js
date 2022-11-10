@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom"
 import '../App.css';
 import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
 import { UserContext } from "../context/user";
-import { ErrorsContext } from "../context/errors"
 import InstructionStep from "./InstructionStep";
 
 
@@ -12,7 +11,6 @@ function ProjectPage({ onProjectButtonClick }) {
     
     const { projectToUpdate, setProjectToUpdate } = useContext(ProjectToUpdateContext)
     const { user } = useContext(UserContext)
-    const { errors } = useContext(ErrorsContext)
     const [ cardStatus, setCardStatus ] = useState('')
     const { id } = useParams();
 
@@ -77,7 +75,6 @@ function ProjectPage({ onProjectButtonClick }) {
                 }
             </div>
             <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
-            {errors ? <p>{errors}</p> : null}
             {cardStatus === "user_authored_project" ? (
                 <div>
                     <Button value="update_project" onClick={handleUpdateClick}>update project</Button> 
