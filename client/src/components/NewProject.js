@@ -46,7 +46,7 @@ function NewProject() {
                 const newProject = data[0];
                 const updatedUser = data[1];
                 setUser(updatedUser);
-                navigate(e.target.value === "instructions" ? `/projects/${newProject.id}/update_instructions` : '/')
+                navigate(`projects/${newProject.id}`)
               
             })
           } else {
