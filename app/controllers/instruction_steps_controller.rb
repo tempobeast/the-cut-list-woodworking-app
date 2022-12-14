@@ -39,7 +39,7 @@ class InstructionStepsController < ApplicationController
     end
 
     def update_instruction_step_params
-        params.permit( :step_detail, :image)
+        params.permit( :step_detail, :image, :project_id, :id)
     end
 
 
