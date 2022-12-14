@@ -2,6 +2,10 @@ class Project < ApplicationRecord
 
     validates :title, :time, presence: true
 
+    def creator
+        creator = self.user.username
+    end
+
     belongs_to :user
     has_many :follows, dependent: :destroy
     has_many :following_users, through: :follows, source: :user
