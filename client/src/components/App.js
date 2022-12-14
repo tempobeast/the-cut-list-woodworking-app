@@ -7,7 +7,6 @@ import NewProject from './NewProject';
 import UserProjectList from './UserProjectList';
 import AvailableProjectList from './AvailableProjectList';
 import ProjectPage from './ProjectPage';
-import ProjectInstructionsContainer from './ProjectInstructionsContainer';
 import { UserContext } from '../context/user';
 import { ProjectsContext } from '../context/projects';
 import { ErrorsContext } from '../context/errors';
@@ -100,7 +99,7 @@ function App() {
       })
     }
   } 
-
+  
   if (!user) return <LoginPage onLogin={setUser} />
 
   return (
@@ -135,9 +134,6 @@ function App() {
             userId={user.id} onProjectButtonClick={onProjectButtonClick}/>
           }
           />
-          <Route path="/projects/:id/update_instructions" element={
-            <ProjectInstructionsContainer/>
-          } />
         </Routes>
       </main>
     </div>
