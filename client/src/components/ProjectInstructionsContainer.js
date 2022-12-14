@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import '../App.css';
-import ProjectInstructionsForm from "./ProjectInstructionsForm";
-import InstructionStep from "./InstructionStep";
 import { ProjectToUpdateContext } from '../context/projectToUpdate.js';
+import StepContainer from "./StepContainer";
 
-function ProjectInstructionsContainer() {
+function ProjectInstructionsContainer({cardStatus}) {
 
     const { projectToUpdate, setProjectToUpdate } = useContext(ProjectToUpdateContext)
-    const {id} = useParams()
-    const navigate = useNavigate()
+    const { instruction_steps } = projectToUpdate
+    const { id } = useParams()
+    const [ addStep, setAddStep ] = useState(false)
 
     if (!projectToUpdate) {
         fetch(`/projects/${id}`)
@@ -17,16 +17,22 @@ function ProjectInstructionsContainer() {
         .then((project) => setProjectToUpdate(project))
     }
 
-    console.log(projectToUpdate)
-  
+    const sortInstructionSteps = () => instruction_steps.sort((a, b) => a.step_number < b.step_number ? -1 : a.step_number > b.step_number ? 1 : 0)
+
     return (
         <div>
             <h3>Instructions: </h3>
-            {projectToUpdate.instruction_steps ? projectToUpdate.instruction_steps.map((step, index) => <InstructionStep key={step.id} step={step} index={index}/>) : null}
-            <div>
-                <ProjectInstructionsForm projectId={id} />
-            </div>
-            <button onClick={() => navigate(`/projects/${id}`)}>Submit Instructions</button>
+            {instruction_steps ? sortInstructionSteps().map((step) => <StepContainer origin={"has_steps"} step={step} key={step.id} cardStatus={cardStatus}/>) 
+            : <StepContainer origin={"no_steps"} cardStatus={cardStatus}/> 
+            }
+            {
+            cardStatus === "user_authored_project" 
+                ?   <div>
+                        <button value={!addStep ? "add_step" : "remove_step"} onClick={() => setAddStep(!addStep)}>{!addStep ? "add step" : "close step"}</button>
+                        {addStep ? <StepContainer origin={"add_step"} cardStatus={cardStatus} /> : null}
+                    </div>
+                : null
+            }
         </div>
     )
 }
