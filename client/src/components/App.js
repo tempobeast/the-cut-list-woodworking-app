@@ -20,6 +20,8 @@ function App() {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 
+  console.log(projects)
+
   useEffect(() => {
     fetch('/me').then((res) => {
       if (res.ok) {
@@ -31,7 +33,7 @@ function App() {
   }, [setUser])
 
   useEffect(() => {
-    fetch('/projects/')
+    fetch('/projects')
     .then((res) => {
       if (res.ok) {
         res.json().then((fetchedProjects) => {
@@ -39,7 +41,7 @@ function App() {
         })
       }
     })
-  }, [setProjects])
+  }, [setProjects, setUser])
 
   function onProjectButtonClick(projectId, e) {
     if (e.target.value === "user_authored_project") {
