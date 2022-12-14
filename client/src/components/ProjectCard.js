@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import '../App.css';
 import { ProjectToUpdateContext } from "../context/projectToUpdate";
@@ -11,6 +11,7 @@ function ProjectCard({ project, onProjectButtonClick, all }) {
     const { errors } = useContext(ErrorsContext)
     const { user } = useContext(UserContext)
     const navigate = useNavigate()
+
     const cardIds = () => {
         if (project.user_id === user.id) {
             return "user_authored_project"
