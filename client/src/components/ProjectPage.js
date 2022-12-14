@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import '../App.css';
 import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
 import { UserContext } from "../context/user";
-import InstructionStep from "./InstructionStep";
+import ProjectInstructionsContainer from "./ProjectInstructionsContainer";
 
 
 function ProjectPage({ onProjectButtonClick }) {
@@ -20,18 +20,22 @@ function ProjectPage({ onProjectButtonClick }) {
         fetch(`/projects/${id}`)
         .then((res) => res.json())
         .then((clickedProject) => {
-            setProjectToUpdate(clickedProject)
-            if (clickedProject.user_id === user.id) {
-                setCardStatus("user_authored_project")
-            } else if (clickedProject.follows.find((follow) => follow.user_id === user.id)) {
-                setCardStatus("followed_project")
-            } else {
-                setCardStatus("all_projects")
-            }
+            updateCardStatus(clickedProject)
+            setProjectToUpdate(clickedProject) 
         })
     }, [id, user, setProjectToUpdate])
 
-    const {title, img_url, instruction_steps, materials, time, tools_required, creator, description} = projectToUpdate
+    function updateCardStatus(clickedProject) {
+        if (clickedProject.user_id === user.id) {
+            setCardStatus("user_authored_project")
+        } else if (clickedProject.follows.find((follow) => follow.user_id === user.id)) {
+            setCardStatus("followed_project")
+        } else {
+            setCardStatus("all_projects")
+        }
+    }
+
+    const {title, img_url, materials, time, tools_required, description} = projectToUpdate
 
     function handleClick(e) {
         onProjectButtonClick(projectToUpdate.id, e)
@@ -41,15 +45,11 @@ function ProjectPage({ onProjectButtonClick }) {
         navigate(`/update_project`)
     }
 
-    function handleUpdateInstructionsClick() {
-        navigate(`/projects/${projectToUpdate.id}/update_instructions`)
-    }
-
     return (
         <div className="project_page">
             <img src={img_url} alt={title} className="project_page_img"/>
             <h1>{title}</h1>
-            <h3>{ creator ? `By: ${creator.username}` : "By: Me"}</h3>
+            <h3>{ projectToUpdate.user_id === user.id ? "By: Me" : `By: ${projectToUpdate.creator}` }</h3>
             {cardStatus === "all_projects" ? <Button onClick={handleClick} className="project_page_button">add project</Button> : null }
             <h4>Time: {time}</h4>
             <p>{description}</p>
@@ -65,25 +65,17 @@ function ProjectPage({ onProjectButtonClick }) {
             </div>
             <div>
                 <h4>Instructions:</h4>
-                {instruction_steps 
-                ? 
-                instruction_steps.sort((a, b) => a.step_number < b.step_number ? -1 : a.step_number > b.step_number ? 1 : 0).map((step) => (
-                    <InstructionStep step={step} key={step.id} cardStatus={cardStatus}/>
-                )) 
-                : 
-                null
-                }
+                <ProjectInstructionsContainer cardStatus={cardStatus}/>
             </div>
-            <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
-            {cardStatus === "user_authored_project" ? (
-                <div>
-                    <Button value="update_project" onClick={handleUpdateClick}>update project</Button> 
-                    <Button value="update_instructions" onClick={handleUpdateInstructionsClick}>update instructions</Button>
-                </div>
-            )
-            : 
-            null
+            {cardStatus === "user_authored_project" 
+            ?   (   <div>
+                        <Button value="update_project" onClick={handleUpdateClick}>update project details</Button> 
+                    </div>
+                )
+            : null
             }
+            <Button value={cardStatus} onClick={handleClick}>{cardStatus === "user_authored_project" ? "delete project" : cardStatus === "followed_project" ? "remove project" : "add project"}</Button>
+
         </div>
     )
 }
