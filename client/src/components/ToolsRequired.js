@@ -1,5 +1,4 @@
 import React from "react";
-import ToolCard from "./ToolCard";
 import toolData from "../ToolData";
 import '../App.css';
 import ToolsRequiredContainer from "./ToolsRequiredContainer";
