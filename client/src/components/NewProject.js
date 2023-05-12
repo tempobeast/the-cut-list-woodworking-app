@@ -4,6 +4,7 @@ import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import '../App.css';
 import { UserContext } from '../context/user.js'
 import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
+import ToolsRequired from "./ToolsRequired";
 
 function NewProject() {
     
@@ -12,11 +13,12 @@ function NewProject() {
     const { projectToUpdate } = useContext(ProjectToUpdateContext)
     const [errors, setErrors] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [ toolsRequired, setToolsRequired ] = useState([])
     const [formData, setFormData] = useState(
         projectToUpdate ? projectToUpdate :
         { 
         title: "",
-        tools_required: "",
+        // tools_required: "",
         description: "",
         materials: "",
         time: "",
@@ -80,7 +82,7 @@ function NewProject() {
                     onChange={handleChange}
                 />
             </FormField>
-            <FormField>
+            {/* <FormField>
                 <Label htmlfor="tools_required">Tools Required</Label>
                 <Input
                     type="text"
@@ -90,7 +92,8 @@ function NewProject() {
                     onChange={handleChange}
                     required
                 />
-            </FormField>
+            </FormField> */}
+            <ToolsRequired toolsRequired={toolsRequired} setToolsRequired={setToolsRequired}/>
             <FormField>
                 <Label htmlfor="description">Description</Label>
                 <Textarea
