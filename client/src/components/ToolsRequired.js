@@ -5,7 +5,9 @@ import ToolsRequiredContainer from "./ToolsRequiredContainer";
 
 function ToolsRequired({toolsRequired, setToolsRequired}) {
 
-    const toolsToDisplay = toolData.map((tool) => <li key={tool.name}><p onClick={() => setToolsRequired([...toolsRequired, tool])}>{tool.name}</p></li> )
+    const toolsToDisplay = toolData
+        .sort((a,b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0 )
+        .map((tool) => <li key={tool.name}><p onClick={() => setToolsRequired([...toolsRequired, tool])}>{tool.name}</p></li> )
    
     return (
         <div className="tools-required">
@@ -18,9 +20,7 @@ function ToolsRequired({toolsRequired, setToolsRequired}) {
                 <input placeholder="add tool image url"></input>
                 <button>x</button>
             </div>
-            <div className="tools-required__selected">
-                <ToolsRequiredContainer toolsRequired={toolsRequired}/>
-            </div>
+            <ToolsRequiredContainer toolsRequired={toolsRequired}/>
         </div>
     )
 }
