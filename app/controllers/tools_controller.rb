@@ -1,7 +1,7 @@
 class ToolsController < ApplicationController
 
     def create
-        user = user.find
+        user = find_user
         tool = Tool.create!(tool_params)
         render json: tool, status: :created
     end
