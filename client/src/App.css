@@ -96,6 +96,7 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 2rem 0;
 }
 
 .tools-list{
@@ -104,13 +105,15 @@ input {
   flex-wrap: wrap;
   text-align: left;
   list-style-type: none;
-  padding-left: 0;
+  padding-left: 1rem;
   overflow: scroll;
-  height: 10rem;
+  height: 16rem;
+  border: #ccc 1px solid;
+  text-align: center;
 }
 
 .tools-list li {
-  width: 33%;
+  width: 33.3333%;
   display: inline;
   cursor: pointer;
   margin: .25rem 0;
@@ -118,6 +121,7 @@ input {
 
 .tools-list li p {
   display: inline;
+  font-size: 1rem;
 }
 
 
@@ -127,19 +131,37 @@ input {
 }
 
 .tools-required__selected{
-  border: black solid 2px;
+  border: #CCC solid 1px;
   height: 16rem;
-  width: 30%;
+  width: 38%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   overflow: scroll;
+  margin: 3.7rem 0;
+}
+
+.tools-required__selected ul{
+  margin: 1rem auto;
+  padding: 0;
+  width: 90%;
 }
 
 .tool-required {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.tool-required__image-container {
+  width: 40%;
 }
 
 .tool-required__image{
-  width: 2.5rem;
+  width: 50px;
+  vertical-align: center;
+}
+
+.tool-required__name {
+  width: 60%;
 }
