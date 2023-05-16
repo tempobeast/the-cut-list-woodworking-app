@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
     def create
         user = find_user
         project = user.projects.create!(project_params)
+        project.map_tools(params[:tools_required])
         render json: [project, user], status: :created
     end
 
@@ -34,7 +35,7 @@ class ProjectsController < ApplicationController
     private
 
     def project_params
-        params.permit( :title, :description, :tools_required, :time, :materials, :img_url )
+        params.permit( :title, :description, :time, :materials, :img_url )
     end
 
     def render_not_found_response
