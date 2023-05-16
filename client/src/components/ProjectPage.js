@@ -35,7 +35,18 @@ function ProjectPage({ onProjectButtonClick }) {
         }
     }
 
-    const {title, img_url, materials, time, tools_required, description} = projectToUpdate
+    const {title, img_url, materials, time, tools, description} = projectToUpdate
+
+    const displayTools = tools.map((tool) => {
+        return (
+            <div key={tool.name} className="tool-required">
+                <div className="tool-required__image-container">
+                    <img className="tool-required__image" src={tool.image} alt={tool.name}/>
+                </div>
+                <p className="tool-required__name">{tool.name}</p>
+            </div>
+        )}
+    )
 
     function handleClick(e) {
         onProjectButtonClick(projectToUpdate.id, e)
@@ -59,9 +70,7 @@ function ProjectPage({ onProjectButtonClick }) {
             </div>
             <div>
                 <h4>Tools used: </h4>
-                <p>
-                {tools_required}
-                </p>
+                {displayTools}
             </div>
             <div>
                 <h4>Instructions:</h4>
