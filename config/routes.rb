@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :project_tools
   resources :tools
   resources :instruction_steps, :except => [:destroy]
   # resources :follows
