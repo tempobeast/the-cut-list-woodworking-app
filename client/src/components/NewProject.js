@@ -39,7 +39,7 @@ function NewProject() {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify({...formData, tools_required: toolsRequired})
         })
         .then((res) => {
           setIsLoading(false);
