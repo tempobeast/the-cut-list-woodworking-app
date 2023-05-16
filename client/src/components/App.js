@@ -20,8 +20,6 @@ function App() {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 
-  console.log(projects)
-
   useEffect(() => {
     fetch('/me').then((res) => {
       if (res.ok) {
