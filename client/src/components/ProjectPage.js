@@ -13,6 +13,9 @@ function ProjectPage({ onProjectButtonClick }) {
     const { user } = useContext(UserContext)
     const [ cardStatus, setCardStatus ] = useState('')
     const { id } = useParams();
+    const [ tools, setTools ] = useState([]) 
+
+    console.log(projectToUpdate)
 
     const navigate = useNavigate()
 
@@ -22,6 +25,7 @@ function ProjectPage({ onProjectButtonClick }) {
         .then((clickedProject) => {
             updateCardStatus(clickedProject)
             setProjectToUpdate(clickedProject) 
+            setTools(clickedProject.tools)
         })
     }, [id, user, setProjectToUpdate])
 
@@ -35,9 +39,11 @@ function ProjectPage({ onProjectButtonClick }) {
         }
     }
 
-    const {title, img_url, materials, time, tools, description} = projectToUpdate
+    const {title, img_url, materials, time, description} = projectToUpdate
 
-    const displayTools = tools.map((tool) => {
+    console.log(tools)
+    
+    const displayTools =  tools.map((tool) => {
         return (
             <div key={tool.name} className="tool-required">
                 <div className="tool-required__image-container">
@@ -45,8 +51,8 @@ function ProjectPage({ onProjectButtonClick }) {
                 </div>
                 <p className="tool-required__name">{tool.name}</p>
             </div>
-        )}
-    )
+        )
+    })
 
     function handleClick(e) {
         onProjectButtonClick(projectToUpdate.id, e)
@@ -70,7 +76,7 @@ function ProjectPage({ onProjectButtonClick }) {
             </div>
             <div>
                 <h4>Tools used: </h4>
-                {displayTools}
+                {projectToUpdate ? displayTools : null}
             </div>
             <div>
                 <h4>Instructions:</h4>
