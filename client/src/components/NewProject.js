@@ -13,17 +13,20 @@ function NewProject() {
     const { projectToUpdate } = useContext(ProjectToUpdateContext)
     const [errors, setErrors] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [ toolsRequired, setToolsRequired ] = useState([])
+    const [ toolsRequired, setToolsRequired ] = useState(projectToUpdate ? projectToUpdate.tools : [])
     const [formData, setFormData] = useState(
         projectToUpdate ? projectToUpdate :
         { 
         title: "",
-        // tools_required: "",
+        // tools: "",
         description: "",
         materials: "",
         time: "",
         img_url: "",
     })
+
+    console.log(projectToUpdate)
+    console.log(projectToUpdate.tools)
 
     function handleChange(e) {
         setFormData({...formData,
@@ -49,7 +52,6 @@ function NewProject() {
                 const updatedUser = data[1];
                 setUser(updatedUser);
                 navigate(`projects/${newProject.id}`)
-              
             })
           } else {
             res.json().then((errors) => setErrors(errors.errors))
