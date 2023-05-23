@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  display: grid;
+  grid-template-areas: "nav-bar"
+                       "main"
+                       "footer";
 }
 
 #user_authored_project {
@@ -153,9 +157,9 @@ input {
   justify-content: center;
 }
 
-.tool-required__image-container {
-  width: 40%;
-}
+/* .tool-required__image-container {
+  margin: 1rem;
+} */
 
 .tool-required__image{
   width: 50px;
@@ -163,5 +167,28 @@ input {
 }
 
 .tool-required__name {
-  width: 60%;
+  margin: 1rem
+}
+
+.instruction-step {
+  background: rgba(240, 183, 109, 0.3);
+  padding: 2rem
+}
+
+.step-container__add {
+  background: #CCC;
+} 
+
+.footer {
+  margin-top: 3rem;
+  height: 4rem;
+  background: black;
+  color: white;
+  display: flex;
+  flex: row;
+  justify-content: center;
+}
+
+.footer p {
+  margin: auto 2rem;
 }
