@@ -25,7 +25,7 @@ function NavBar() {
   }
 
   return (
-    <div>
+    <div className="nav-bar">
         <Logo>
           <Link to="/">
             <img className="logo"src="/CutListLogo-01.png" alt="The Cut List"/>
