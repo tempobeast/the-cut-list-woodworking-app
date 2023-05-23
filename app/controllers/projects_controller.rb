@@ -23,7 +23,9 @@ class ProjectsController < ApplicationController
     def update
         user = find_user
         project = user.projects.find(params[:id])
+        project.tools.destroy_all
         project.update!(project_params)
+        project.map_tools(params[:tools_required])
         render json: [project, user], status: :accepted
     end
 
