@@ -12,7 +12,7 @@ function ProjectToUpdateProvider ({ children }) {
         tools: '',
         user_id: '',
         creator: '',
-        instructions: '',
+        instruction_steps: '',
     });
 
     return (
