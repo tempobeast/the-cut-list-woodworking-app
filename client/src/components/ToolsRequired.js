@@ -54,7 +54,7 @@ function ToolsRequired({toolsRequired, setToolsRequired}) {
                 <input onChange={handleChange} name="image" placeholder="add tool image url" value={addTool.image}></input>
                 <button onClick={submitAddTool}>add</button>
             </div>
-            <ToolsRequiredContainer toolsRequired={toolsRequired}/>
+            <ToolsRequiredContainer toolsRequired={toolsRequired} setToolsRequired={setToolsRequired}/>
         </div>
     )
 }
