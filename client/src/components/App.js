@@ -11,6 +11,7 @@ import { UserContext } from '../context/user';
 import { ProjectsContext } from '../context/projects';
 import { ErrorsContext } from '../context/errors';
 import { SearchProvider } from '../context/search';
+import Footer from './Footer';
 
 function App() {
 
@@ -106,7 +107,7 @@ function App() {
     <div className='App'>
       <main>
         <NavBar />
-        <Routes>
+        <Routes className="main">
           <Route path="/new_project" element={
             <NewProject />
           }
@@ -135,6 +136,7 @@ function App() {
           }
           />
         </Routes>
+        <Footer/>
       </main>
     </div>
   );
