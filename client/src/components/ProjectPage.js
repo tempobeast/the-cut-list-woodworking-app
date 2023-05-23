@@ -45,7 +45,7 @@ function ProjectPage({ onProjectButtonClick }) {
     
     const displayTools =  tools.map((tool) => {
         return (
-            <div key={tool.name} className="tool-required">
+            <div key={tool.name} className="project-page tool-required">
                 <div className="tool-required__image-container">
                     <img className="tool-required__image" src={tool.image} alt={tool.name}/>
                 </div>
