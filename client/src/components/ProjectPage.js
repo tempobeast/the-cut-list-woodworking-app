@@ -15,8 +15,6 @@ function ProjectPage({ onProjectButtonClick }) {
     const { id } = useParams();
     const [ tools, setTools ] = useState([]) 
 
-    console.log(projectToUpdate)
-
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -40,8 +38,6 @@ function ProjectPage({ onProjectButtonClick }) {
     }
 
     const {title, img_url, materials, time, description} = projectToUpdate
-
-    console.log(tools)
     
     const displayTools =  tools.map((tool) => {
         return (
