@@ -5,6 +5,7 @@ import '../App.css';
 import { UserContext } from '../context/user.js'
 import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
 import ToolsRequired from "./ToolsRequired";
+import ToolsContainer from "./ToolsContainer";
 
 function NewProject() {
     
@@ -95,7 +96,7 @@ function NewProject() {
                     required
                 />
             </FormField> */}
-            <ToolsRequired toolsRequired={toolsRequired} setToolsRequired={setToolsRequired}/>
+            <ToolsContainer toolsRequired={toolsRequired} setToolsRequired={setToolsRequired}/>
             <FormField>
                 <Label htmlfor="description">Description</Label>
                 <Textarea
