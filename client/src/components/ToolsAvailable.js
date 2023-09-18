@@ -1,5 +1,4 @@
 function ToolsAvailable({toolData, toolsRequired, setToolsRequired}) {
-    console.log(toolData)
 
     const toolsToDisplay = toolData
     .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
@@ -13,8 +12,7 @@ function ToolsAvailable({toolData, toolsRequired, setToolsRequired}) {
 
     return (
         <div>
-            <p>ToolsAvailable</p>
-            <ul>{toolsToDisplay}</ul>
+            <ul className="tools-list_available">{toolsToDisplay}</ul>
         </div>
     )
 }

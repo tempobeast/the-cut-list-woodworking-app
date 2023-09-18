@@ -42,15 +42,17 @@ function ToolsContainer({ toolsRequired, setToolsRequired }) {
   return (
     <div className='tools-container'>
         <h3>Select Tools</h3>
-        <ToolsAvailable 
-            toolData={toolData} 
-            toolsRequired={toolsRequired} 
-            setToolsRequired={setToolsRequired}
-        />
-        <ToolsSelected
-            toolsRequired={toolsRequired}
-            setToolsRequired={setToolsRequired}
-        />
+        <div className="tools-container_box">
+          <ToolsAvailable 
+              toolData={toolData} 
+              toolsRequired={toolsRequired} 
+              setToolsRequired={setToolsRequired}
+          />
+          <ToolsSelected
+              toolsRequired={toolsRequired}
+              setToolsRequired={setToolsRequired}
+          />
+        </div>
         <ToolsAdd toggleAddTool={toggleAddTool} 
             setToggleAddTool={setToggleAddTool} 
             handleToolChange={handleToolChange} 
