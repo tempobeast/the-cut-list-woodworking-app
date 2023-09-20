@@ -74,7 +74,8 @@
   margin: 0 auto;
 }
 
-.new-project-form{
+.new-project-form,
+.update-project-form {
   width: 70%;
   margin: auto;
 }
@@ -121,7 +122,6 @@ input {
 }
 
 .tools-list_available-item {
-  /* width: 33.3333%; */
   display: block;
   margin: .25rem 0;
 }
