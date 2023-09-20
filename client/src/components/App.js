@@ -12,6 +12,7 @@ import { ProjectsContext } from '../context/projects';
 import { ErrorsContext } from '../context/errors';
 import { SearchProvider } from '../context/search';
 import Footer from './Footer';
+import UpdateProject from './UpdateProject';
 
 function App() {
 
@@ -112,8 +113,8 @@ function App() {
             <NewProject />
           }
           />
-          <Route path="/update_project" element={
-            <NewProject />
+          <Route path="/update_project/:id" element={
+            <UpdateProject />
           }
           />
           
