@@ -3,31 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import '../App.css';
 import { UserContext } from '../context/user.js'
-import { ProjectToUpdateContext } from '../context/projectToUpdate.js'
-import ToolsRequired from "./ToolsRequired";
 import ToolsContainer from "./ToolsContainer";
 
 function NewProject() {
     
     const navigate = useNavigate()
     const { setUser } = useContext(UserContext)
-    const { projectToUpdate } = useContext(ProjectToUpdateContext)
     const [errors, setErrors] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [ toolsRequired, setToolsRequired ] = useState(projectToUpdate ? projectToUpdate.tools : [])
+    const [ toolsRequired, setToolsRequired ] = useState([])
     const [formData, setFormData] = useState(
-        projectToUpdate ? projectToUpdate :
         { 
-        title: "",
-        // tools: "",
-        description: "",
-        materials: "",
-        time: "",
-        img_url: "",
-    })
-
-    console.log(projectToUpdate)
-    console.log(projectToUpdate.tools)
+            title: "",
+            description: "",
+            materials: "",
+            time: "",
+            img_url: "",
+        }
+    )
 
     function handleChange(e) {
         setFormData({...formData,
@@ -38,8 +31,8 @@ function NewProject() {
         e.preventDefault();
         setErrors([]);
         setIsLoading(true);
-        fetch (projectToUpdate ? `/projects/${projectToUpdate.id}` : '/projects' , {
-          method: projectToUpdate ? "PATCH" : "POST",
+        fetch ('/projects' , {
+          method: "POST",
           headers: {
               'Content-Type': 'application/json',
           },
@@ -62,7 +55,7 @@ function NewProject() {
 
     return (
         <div className="new-project-form">
-            <h3>{projectToUpdate ? "Update Project" : "Create a new project"}</h3>
+            <h3>Create a new project</h3>
             <form onSubmit={handleSubmit}>
             <FormField>
                 <Label htmlfor="title">Title</Label>
@@ -85,17 +78,6 @@ function NewProject() {
                     onChange={handleChange}
                 />
             </FormField>
-            {/* <FormField>
-                <Label htmlfor="tools_required">Tools Required</Label>
-                <Input
-                    type="text"
-                    name="tools_required"
-                    autoComplete="off"
-                    value={formData.tools_required}
-                    onChange={handleChange}
-                    required
-                />
-            </FormField> */}
             <ToolsContainer toolsRequired={toolsRequired} setToolsRequired={setToolsRequired}/>
             <FormField>
                 <Label htmlfor="description">Description</Label>
@@ -132,10 +114,10 @@ function NewProject() {
             </FormField>            
             <FormField>
                 <Button type="submit">
-                    {isLoading ? "Loading..." : projectToUpdate ? "Update Project" : "Submit Project"}
+                    {isLoading ? "Loading..." : "Submit Project"}
                 </Button>
                 <Button onClick={handleSubmit} value="instructions">
-                    {isLoading ? "Loading..." : projectToUpdate ? "Update Instructions" : "Add Instructions"}
+                    {isLoading ? "Loading..." : "Add Instructions"}
                 </Button>
             </FormField>
             <FormField>
