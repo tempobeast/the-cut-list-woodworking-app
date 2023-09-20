@@ -55,7 +55,7 @@ function ProjectPage({ onProjectButtonClick }) {
     }
 
     function handleUpdateClick(e) {
-        navigate(`/update_project`)
+        navigate(`/update_project/${id}`)
     }
 
     return (
