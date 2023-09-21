@@ -21,9 +21,7 @@ function StepContainer({step, cardStatus, origin}) {
                 ? <ProjectInstructionsForm step={step} setEditStep={setEditStep} editStep={editStep} origin={origin}/> 
                 : <InstructionStep step={step} setEditStep={setEditStep} origin={origin} /> 
                 }
-                <br/>
-                <button onClick={() => setEditStep(!editStep)}>{editStep ? "close edit form" : "edit step"}</button>
-                <hr></hr>
+                <button className="instruction-step__button" onClick={() => setEditStep(!editStep)}>{editStep ? "close edit form" : "edit step"}</button>
             </div>
         )
     } else {
