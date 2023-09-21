@@ -176,8 +176,18 @@ input {
 }
 
 .instruction-step {
-  background: rgba(240, 183, 109, 0.3);
-  padding: 2rem
+  background: rgba(240, 183, 109, 0.15);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  margin-top: 2rem;
+}
+
+.instruction-step h4 {
+  margin-top: 0
+}
+
+.instruction-step__button {
+  margin-top: .5rem
 }
 
 .step-container__add {
