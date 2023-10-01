@@ -8,7 +8,7 @@ A user can post their own projects for others to view and try themselves.
 
 ![gif of new project](https://media.giphy.com/media/NtzVQQyG6ik8mPVoNO/giphy.gif)
 
-They can also browse all of the projects posted by other users and add them to their project list to work on themselves.
+They can also browse all of the projects posted by other users and add them to their project list to work on later.
 
 ![gif of follow project](https://media.giphy.com/media/XeUZxgVjILBbAvmZXt/giphy.gif)
  
