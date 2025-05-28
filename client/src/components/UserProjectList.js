@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ProjectCard from './ProjectCard';
 import { UserContext } from "../context/user";
 import { SearchContext } from "../context/search";
+import { ProjectsContext } from '../context/projects';
 import SearchFilter from "./SearchFilter";
 import '../App.css';
 
@@ -9,7 +10,19 @@ function UserProjectList({ onProjectButtonClick }) {
 
     const { user } = useContext(UserContext)
     const { search } = useContext(SearchContext) 
+    const { setProjects } = useContext(ProjectsContext)
     const filterUserProjects = user.user_related_projects.filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
+
+    useEffect(() => {
+        fetch('/projects')
+        .then((res) => {
+          if (res.ok) {
+            res.json().then((fetchedProjects) => {
+              setProjects(fetchedProjects)
+            })
+          }
+        });
+      }, [])
 
     return (
         <div>

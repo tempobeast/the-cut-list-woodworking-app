@@ -7,9 +7,10 @@ import SearchFilter from "./SearchFilter";
 
 function AvailableProjectList({ onProjectButtonClick }) {
 
-    const { projects } = useContext(ProjectsContext)
-    const { search } = useContext(SearchContext)
+    const { projects } = useContext(ProjectsContext);
+    const { search } = useContext(SearchContext);
     const filterProjects = projects.filter((project) => project.title.toLowerCase().includes(search.toLowerCase()))
+    //.sort((a,b) => a.id - b.id)
 
     return (
         <div>

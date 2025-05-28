@@ -21,7 +21,6 @@ function ProjectInstructionsContainer({cardStatus}) {
 
     return (
         <div>
-            <h3>Instructions: </h3>
             {instruction_steps ? sortInstructionSteps().map((step) => <StepContainer origin={"has_steps"} step={step} key={step.id} cardStatus={cardStatus}/>) 
             : <StepContainer origin={"no_steps"} cardStatus={cardStatus}/> 
             }

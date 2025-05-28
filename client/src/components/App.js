@@ -23,16 +23,6 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('/me').then((res) => {
-      if (res.ok) {
-        res.json().then((user) => {
-          setUser(user);
-        })
-      }
-    });
-  }, [setUser])
-
-  useEffect(() => {
     fetch('/projects')
     .then((res) => {
       if (res.ok) {
@@ -40,8 +30,16 @@ function App() {
           setProjects(fetchedProjects)
         })
       }
-    })
-  }, [setProjects, setUser])
+    });
+
+    fetch('/me').then((res) => {
+      if (res.ok) {
+        res.json().then((user) => {
+          setUser(user);
+        })
+      }
+    });
+  }, [])
 
   function onProjectButtonClick(projectId, e) {
     if (e.target.value === "user_authored_project") {

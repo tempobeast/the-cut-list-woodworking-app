@@ -25,7 +25,7 @@ function ProjectCard({ project, onProjectButtonClick, all }) {
     function handleUpdateClick(e) {
         e.stopPropagation();
         setProjectToUpdate(project)
-        navigate(`/update_project`)
+        navigate(`/update_project/{project.id}`)
     }
 
     function handleButtonClick(e) {
